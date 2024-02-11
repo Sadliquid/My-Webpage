@@ -96,5 +96,17 @@ def editPost():
     write_json('storage.json', data)
     return 'SUCCESS. Post Edited.'
 
+@app.route('/deletePost', methods=['POST'])
+def deletePost():
+    if "postID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    PostID = request.json['postID']
+
+    data = read_json('storage.json')
+    data["blog"].pop(PostID)
+    write_json('storage.json', data)
+    return 'SUCCESS. Post Deleted.'
+
 if __name__ == '__main__':
     app.run(debug=True)

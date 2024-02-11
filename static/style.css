@@ -584,3 +584,9 @@ html {
     margin-top: 5px;
     cursor: pointer;
 }
+
+#deleteButton {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
