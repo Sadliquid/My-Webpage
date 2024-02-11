@@ -149,5 +149,53 @@
 
 })(jQuery);
 
+function login(){
+    const loginUsername = document.getElementById("loginUsername").value;
+    const loginPassword = document.getElementById("loginPassword").value;
+
+    if (loginUsername == ""){
+        alert("Please enter a valid username");
+        return;
+    }
+    if (loginPassword == ""){
+        alert("Please enter a valid password");
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `login`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "loginUsername": loginUsername,
+            "loginPassword": loginPassword
+        }
+    })
+    .then(function (response) {
+        if (response.data.startsWith("ERROR:")){
+            console.log(response.data)
+            alert("An error occured while logging you in. Please try again.")
+            return;
+        }
+        else if (response.data.startsWith("UERROR:")){
+            console.log(response.data)
+            alert(response.data.substring("UERROR: ".length))
+            return;
+        }
+        console.log(response.data)
+        document.getElementById("loginButton").style.backgroundColor = "white"
+        document.getElementById("loginButton").style.color = "navy"
+        document.getElementById("loginButton").innerHTML = "Logging you in..."
+        setTimeout(function(){
+            window.location.href = "/editor";
+        }, 2000);
+    })
+    .catch(function (error) {
+        console.error('Error logging in:', error);
+    });
+}
+
 console.log("Testing")
 

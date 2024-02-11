@@ -519,3 +519,14 @@ html {
 #carouselImg {
     opacity: 0.5;
 }
+
+#contactDescription {
+    width: 40%;
+    transition: 0.2s ease-in-out;
+    color: navy;
+}
+
+#contactDescription:hover {
+    transition: 0.2s ease-in-out;
+    color: #87CEEB;
+}
