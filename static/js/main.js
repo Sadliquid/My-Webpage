@@ -149,18 +149,20 @@
 
 })(jQuery);
 
-function login(){
+function login() {
     const loginUsername = document.getElementById("loginUsername").value;
     const loginPassword = document.getElementById("loginPassword").value;
 
-    if (loginUsername == ""){
+    if (loginUsername == "") {
         alert("Please enter a valid username");
         return;
     }
-    if (loginPassword == ""){
+    if (loginPassword == "") {
         alert("Please enter a valid password");
         return;
     }
+
+    securityKey = prompt("Please enter admin security key: ")
 
     axios({
         method: 'post',
@@ -170,31 +172,41 @@ function login(){
         },
         data: {
             "loginUsername": loginUsername,
-            "loginPassword": loginPassword
+            "loginPassword": loginPassword,
+            "securityKey": securityKey
         }
     })
-    .then(function (response) {
-        if (response.data.startsWith("ERROR:")){
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while logging you in. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
             console.log(response.data)
-            alert("An error occured while logging you in. Please try again.")
-            return;
-        }
-        else if (response.data.startsWith("UERROR:")){
-            console.log(response.data)
-            alert(response.data.substring("UERROR: ".length))
-            return;
-        }
-        console.log(response.data)
-        document.getElementById("loginButton").style.backgroundColor = "white"
-        document.getElementById("loginButton").style.color = "navy"
-        document.getElementById("loginButton").innerHTML = "Logging you in..."
-        setTimeout(function(){
-            window.location.href = "/editor";
-        }, 2000);
-    })
-    .catch(function (error) {
-        console.error('Error logging in:', error);
-    });
+            document.getElementById("loginButton").innerHTML = "Logging you in..."
+            setTimeout(function () {
+                window.location.href = "/editor";
+            }, 2000);
+            setTimeout(function () {
+                window.location.href = "/";
+                axios({
+                    method: 'post',
+                    url: `refreshLoginStatus`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    data: {"refresh": "True"}
+                })
+            }, 1800000);
+        })
+        .catch(function (error) {
+            console.error('Error logging in:', error);
+        });
 }
 
 console.log("Testing")

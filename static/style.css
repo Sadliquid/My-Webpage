@@ -530,3 +530,35 @@ html {
     transition: 0.2s ease-in-out;
     color: #87CEEB;
 }
+
+#loginButton {
+    background-color: #87CEEB;
+    cursor: pointer;
+}
+
+#pleaseSignInFirst {
+    text-align: center;
+}
+
+#errorLoginButtonDiv {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+#errorLoginButton {
+    border-radius: 10px;
+    background-color: navy;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+#errorLoginButton:hover {
+    background-color: whitesmoke;
+    color: navy;
+    transition: 0.2s ease-in-out;
+}
