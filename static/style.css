@@ -1,4 +1,8 @@
 /*** Spinner Start ***/
+html {
+    scroll-behavior: smooth;
+}
+
 #spinner {
     opacity: 0;
     visibility: hidden;
@@ -70,7 +74,7 @@
 }
 
 .btn.border-secondary:hover {
-    background: var(--bs-secondary) !important;
+    background: #87CEEB !important;
     color: var(--bs-white) !important;
 }
 
@@ -180,11 +184,13 @@
 
 /*** Hero Header ***/
 .hero-header {
-    background: linear-gradient(rgba(248, 223, 173, 0.1), rgba(248, 223, 173, 0.1)), url(../img/hero-img.jpg);
+    background: linear-gradient(rgba(248, 223, 173, 0.1), rgba(248, 223, 173, 0.1)), url(../static/Images/homepageBannerNewer.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
 
 .carousel-item {
     position: relative;
@@ -196,7 +202,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 25px;
-    background: linear-gradient(rgba(255, 181, 36, 0.7), rgba(255, 181, 36, 0.7));
+    background: rgb(244, 184, 73);
 }
 
 .carousel-control-next,
@@ -507,4 +513,8 @@
 
 .footer .footer-item p.mb-4 {
     line-height: 35px;
+}
+
+#carouselImg {
+    opacity: 0.5;
 }
