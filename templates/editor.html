@@ -147,8 +147,30 @@
                 </div>
                 <div class="modal-footer">
                     <div id="createErrorMessage"></div>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        onclick="submitPost()">Post it!</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="submitPost()">Post
+                        it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <h1 class="text-center text-blue display-6">Contact Forms</h1>
+            <p></p>
+            <div class="bg-light p-5 rounded">
+                <div class="row g-4">
+                    {% for timestamp, contactForm in data.contactForms.items() %}
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5">
+                            <h4>Name: {{ contactForm.name }}</h4>
+                            <p>Email: {{ contactForm.email }}</p>
+                            <p>Message: {{ contactForm.message }}</p>
+                        </div>
+                    </div>
+                    {% if loop.index % 2 == 0 %}
+                    <div class="w-100"></div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
