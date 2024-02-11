@@ -242,11 +242,11 @@ function submitEdits(index){
     const editedDescription = document.getElementById('editDescription' + index).value;
 
     if (editedTitle == ""){
-        document.getElementById("errorMessage").innerHTML = "Title cannot be empty!";
+        document.getElementById("editErrorMessage").innerHTML = "Title cannot be empty!";
         return;
     }
     if (editedDescription == ""){
-        document.getElementById("errorMessage").innerHTML = "Description cannot be empty!";
+        document.getElementById("editErrorMessage").innerHTML = "Description cannot be empty!";
         return;
     }
 
@@ -309,6 +309,49 @@ function deletePost(postIDtoDelete){
         })
         .catch(function (error) {
             console.error('Error deleting post:', error);
+        });
+}
+
+function submitPost(){
+    const postTitle = document.getElementById("postTitle").value;
+    const postDescription = document.getElementById("postDescription").value;
+
+    if (postTitle == ""){
+        document.getElementById("createErrorMessage").innerHTML = "Title cannot be empty!";
+        return;
+    }
+    if (postDescription == ""){
+        document.getElementById("createErrorMessage").innerHTML = "Description cannot be empty!";
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `submitPost`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "postTitle": postTitle,
+            "postDescription": postDescription
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while submitting post. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error submitting post:', error);
         });
 }
 

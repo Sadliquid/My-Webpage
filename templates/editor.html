@@ -56,6 +56,11 @@
             <p></p>
             <div class="bg-light p-5 rounded">
                 <div class="row g-4">
+                    {% if data.blog|length == 0 %}
+                    <div class="col-12">
+                        <h3 class="text-center">No blog posts yet</h3>
+                    </div>
+                    {% endif %}
                     {% for timestamp, post in data.blog.items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5 position-relative">
@@ -83,14 +88,13 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <!-- Set the value of edit fields to the title and description -->
                                     <input type="text" class="form-control mb-3" id="editTitle{{ loop.index }}"
                                         placeholder="New title" value="{{ post.title }}">
                                     <textarea class="form-control mb-3" id="editDescription{{ loop.index }}"
                                         placeholder="New description">{{ post.description }}</textarea>
                                 </div>
                                 <div class="modal-footer">
-                                    <!-- Add onclick event to the Confirm edits button -->
+                                    <div id="editErrorMessage"></div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                         onclick="submitEdits('{{ loop.index }}')">Confirm edits</button>
                                 </div>
@@ -122,6 +126,29 @@
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createPostButtonDiv">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPostModal"
+            id="createPostButton">Create New Post</button>
+    </div>
+    <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newPostModalLabel">Create New Blog Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" id="postTitle" placeholder="Title:">
+                    <textarea class="form-control mb-3" id="postDescription" placeholder="Description:"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <div id="createErrorMessage"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        onclick="submitPost()">Post it!</button>
                 </div>
             </div>
         </div>

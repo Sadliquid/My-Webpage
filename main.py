@@ -108,5 +108,26 @@ def deletePost():
     write_json('storage.json', data)
     return 'SUCCESS. Post Deleted.'
 
+@app.route('/submitPost', methods=['POST'])
+def submitPost():
+    if "postTitle" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "postDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    postTitle = request.json['postTitle']
+    postDescription = request.json['postDescription']
+
+    data = read_json('storage.json')
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    newPost = {
+        "title": postTitle,
+        "description": postDescription,
+    }
+    data["blog"][formatted_time] = newPost
+    write_json('storage.json', data)
+    return 'SUCCESS. Post Submitted.'
+
 if __name__ == '__main__':
     app.run(debug=True)

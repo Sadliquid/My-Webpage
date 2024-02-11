@@ -549,7 +549,8 @@ html {
 
 #errorLoginButton,
 #gotoAdminPanelButton,
-#logoutButton {
+#logoutButton,
+#createPostButton {
     border-radius: 10px;
     background-color: navy;
     color: white;
@@ -563,7 +564,8 @@ html {
 
 #errorLoginButton:hover,
 #gotoAdminPanelButton:hover,
-#logoutButton:hover {
+#logoutButton:hover,
+#createPostButton:hover {
     background-color: whitesmoke;
     color: navy;
     transition: 0.2s ease-in-out;
@@ -586,7 +588,14 @@ html {
 }
 
 #deleteButton {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     margin-right: 10px;
     cursor: pointer;
+
+}
+
+#createPostButtonDiv {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
