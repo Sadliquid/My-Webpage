@@ -540,13 +540,16 @@ html {
     text-align: center;
 }
 
-#errorLoginButtonDiv {
+#errorLoginButtonDiv,
+#gotoAdminPanelButtonDiv {
     margin-top: 30px;
     display: flex;
     justify-content: center;
 }
 
-#errorLoginButton {
+#errorLoginButton,
+#gotoAdminPanelButton,
+#logoutButton {
     border-radius: 10px;
     background-color: navy;
     color: white;
@@ -555,10 +558,18 @@ html {
     padding-top: 10px;
     padding-bottom: 10px;
     transition: 0.2s ease-in-out;
+    border: 2px solid navy;
 }
 
-#errorLoginButton:hover {
+#errorLoginButton:hover,
+#gotoAdminPanelButton:hover,
+#logoutButton:hover {
     background-color: whitesmoke;
     color: navy;
     transition: 0.2s ease-in-out;
+}
+
+#editorNavbar {
+    display: flex;
+    justify-content: space-between;
 }

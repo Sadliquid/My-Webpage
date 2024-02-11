@@ -20,54 +20,56 @@ def contact():
 
 @app.route('/admin')
 def about():
+    with open ('storage.json', "r") as db:
+        data = json.load(db)
+        if data["admin"]["loginStatus"] == "True":
+            return render_template('loggedin.html')
     return render_template('admin.html')
 
 @app.route('/error')
 def error():
     return render_template('error.html')
 
-# @app.route('/login', methods=['POST'])
-# def login():
-#     if "loginUsername" not in request.json:
-#         return "ERROR: One or more required payloads missing."
-#     if "loginPassword" not in request.json:
-#         return "ERROR: One or more required payloads missing."
-#     if "securityKey" not in request.json:
-#         return "ERROR: One or more required payloads missing."
-    
-#     loginUsername = request.json['loginUsername']
-#     loginPassword = request.json['loginPassword']
-#     securityKey = request.json['securityKey']
+def read_json(filename):
+    with open(filename, "r") as file:
+        data = json.load(file)
+    return data
 
-#     with open ('storage.json', "r+") as db:
-#         data = json.load(db)
-#         if securityKey != data["admin"]["securityKey"]:
-#             return 'UERROR: Invalid Security Key.'
-#         if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"]:
-#             data["admin"]["loginStatus"] = "True"
-#             json.dump(data, db)
-#             return 'SUCCESS. Access Granted.'
-#         else:
-#             return 'UERROR: Invalid Login Credentials.'
-        
-# @app.route('/refreshLoginStatus', methods=['POST'])
-# def refreshLogin():
-#     if "refresh" not in request.json:
-#         return "ERROR: One or more required payloads missing."
+# Function to write to the JSON file
+def write_json(filename, data):
+    with open(filename, "w") as file:
+        json.dump(data, file, indent=4)
+
+@app.route('/login', methods=['POST'])
+def login():
+    if "loginUsername" not in request.json or "loginPassword" not in request.json or "securityKey" not in request.json:
+        return "ERROR: One or more required payloads missing."
     
-#     refresh = request.json['refresh']
-#     with open ('storage.json', "r+") as db:
-#         data = json.load(db)
-#         if refresh == "True":
-#             data["admin"]["loginStatus"] = "False"
-#             json.dump(data, db)
-#         else:
-#             return 'ERROR: Login Status is already False.'
+    loginUsername = request.json['loginUsername']
+    loginPassword = request.json['loginPassword']
+    securityKey = request.json['securityKey']
+
+    data = read_json('storage.json')
+    if securityKey != data["admin"]["securityKey"]:
+        return 'ERROR: Invalid Security Key.'
+    if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"]:
+        data["admin"]["loginStatus"] = "True"
+        write_json('storage.json', data)
+        return 'SUCCESS. Access Granted.'
+    else:
+        return 'ERROR: Invalid Login Credentials.'
+    
+@app.route('/logout', methods=['POST'])
+def logout():
+    data = read_json('storage.json')
+    data["admin"]["loginStatus"] = "False"
+    write_json('storage.json', data)
+    return 'SUCCESS. Logged Out.'
 
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
-    with open ('storage.json', "r+") as db:
+    with open ('storage.json', "r") as db:
         data = json.load(db)
         if data["admin"]["loginStatus"] == "False":
             return render_template('error.html')

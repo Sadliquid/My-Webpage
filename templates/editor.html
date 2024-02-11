@@ -27,6 +27,9 @@
 
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Axios JsDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -36,14 +39,11 @@
     </div>
     <div class="container-fluid fixed-top">
         <div class="container px-0">
-            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl" id="editorNavbar">
                 <a href="/" class="navbar-brand">
                     <h1 class="text-primary display-6">Joshua's Website</h1>
                 </a>
-                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-                    <span class="fa fa-bars text-primary"></span>
-                </button>
+                <button type="button" id="logoutButton" onclick="logout()">Log out</button>
             </nav>
         </div>
     </div>

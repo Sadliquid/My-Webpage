@@ -192,22 +192,39 @@ function login() {
             setTimeout(function () {
                 window.location.href = "/editor";
             }, 2000);
-            setTimeout(function () {
-                window.location.href = "/";
-                axios({
-                    method: 'post',
-                    url: `refreshLoginStatus`,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    data: {"refresh": "True"}
-                })
-            }, 1800000);
         })
         .catch(function (error) {
             console.error('Error logging in:', error);
         });
 }
 
-console.log("Testing")
+function logout(){
+    axios({
+        method: 'post',
+        url: `logout`,
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while logging out. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            document.getElementById("logoutButton").innerHTML = "Logging out..."
+            setTimeout(function () {
+                window.location.href = "/admin";
+            }, 2000);
+        })
+        .catch(function (error) {
+            console.error('Error logging in:', error);
+        });
+}
 
