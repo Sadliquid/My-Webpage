@@ -1,10 +1,13 @@
 from flask import Flask, render_template, json, request
+import datetime
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    db = open('storage.json', "r")
+    data = json.load(db)
+    return render_template('index.html', data=data)
 
 @app.route('/portfolio')
 def portfolio():
@@ -20,7 +23,7 @@ def contact():
 
 @app.route('/admin')
 def about():
-    with open ('storage.json', "r") as db:
+    with open('storage.json', "r") as db:
         data = json.load(db)
         if data["admin"]["loginStatus"] == "True":
             return render_template('loggedin.html')
