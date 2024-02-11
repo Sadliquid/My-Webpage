@@ -239,7 +239,7 @@ a {
 }
 
 a:hover {
-    color: #679d06
+    color: navy;
 }
 
 a:not([href]):not([class]),
@@ -8302,7 +8302,8 @@ fieldset:disabled .btn {
 }
 
 .text-center {
-    text-align: center !important
+    text-align: center !important;
+    color: navy;
 }
 
 .text-decoration-none {
