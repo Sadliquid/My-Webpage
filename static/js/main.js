@@ -152,6 +152,7 @@
 function login() {
     const loginUsername = document.getElementById("loginUsername").value;
     const loginPassword = document.getElementById("loginPassword").value;
+    const securityKey = document.getElementById("securityKey").value;
 
     if (loginUsername == "") {
         alert("Please enter a valid username");
@@ -162,7 +163,10 @@ function login() {
         return;
     }
 
-    securityKey = prompt("Please enter admin security key: ")
+    if (securityKey == ""){
+        alert("Please enter a valid security key")
+        return;
+    }
 
     axios({
         method: 'post',

@@ -50,14 +50,12 @@ def login():
     securityKey = request.json['securityKey']
 
     data = read_json('storage.json')
-    if securityKey != data["admin"]["securityKey"]:
-        return 'ERROR: Invalid Security Key.'
-    if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"]:
+    if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
         data["admin"]["loginStatus"] = "True"
         write_json('storage.json', data)
         return 'SUCCESS. Access Granted.'
     else:
-        return 'ERROR: Invalid Login Credentials.'
+        return 'UERROR: Invalid Login Credentials.'
     
 @app.route('/logout', methods=['POST'])
 def logout():
