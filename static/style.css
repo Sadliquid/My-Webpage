@@ -573,3 +573,9 @@ html {
     display: flex;
     justify-content: space-between;
 }
+
+@media (max-width: 768px) {
+    .counter {
+        width: 100%;
+    }
+}
