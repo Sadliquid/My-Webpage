@@ -70,13 +70,31 @@ def logout():
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
-    with open ('storage.json', "r") as db:
-        data = json.load(db)
-        if data["admin"]["loginStatus"] == "False":
-            return render_template('error.html')
+    db = open ('storage.json', "r")
+    data = json.load(db)
+    if data["admin"]["loginStatus"] == "False":
+        return render_template('error.html')
         
-    return render_template('editor.html')
+    return render_template('editor.html', data=data)
 
+@app.route('/editPost', methods=['POST'])
+def editPost():
+    if "editedTitle" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "editedDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "editPostID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    editedTitle = request.json['editedTitle']
+    editedDescription = request.json['editedDescription']
+    editPostID = request.json['editPostID']
+
+    data = read_json('storage.json')
+    data["blog"][editPostID]["title"] = editedTitle
+    data["blog"][editPostID]["description"] = editedDescription
+    write_json('storage.json', data)
+    return 'SUCCESS. Post Edited.'
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -579,3 +579,8 @@ html {
         width: 100%;
     }
 }
+
+.editIcon {
+    margin-top: 5px;
+    cursor: pointer;
+}

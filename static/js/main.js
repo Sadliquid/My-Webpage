@@ -232,3 +232,53 @@ function logout(){
         });
 }
 
+var PostIDtoEdit = null
+function setPostIDtoEdit(PostID){
+    PostIDtoEdit = PostID
+}
+
+function submitEdits(index){
+    const editedTitle = document.getElementById('editTitle' + index).value;
+    const editedDescription = document.getElementById('editDescription' + index).value;
+
+    if (editedTitle == ""){
+        document.getElementById("errorMessage").innerHTML = "Title cannot be empty!";
+        return;
+    }
+    if (editedDescription == ""){
+        document.getElementById("errorMessage").innerHTML = "Description cannot be empty!";
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `editPost`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "editedTitle": editedTitle,
+            "editedDescription": editedDescription,
+            "editPostID": PostIDtoEdit
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while editing post. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error editing post:', error);
+        });
+    
+}
+

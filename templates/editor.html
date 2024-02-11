@@ -50,44 +50,45 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-blue display-6">Admin Panel</h1>
     </div>
-    <div class="container-fluid contact py-5">
-        <div class="container py-5">
-            <div class="p-5 bg-light rounded">
+    <div class="container-fluid py-5">
+        <div class="container">
+            <h1 class="text-center text-blue display-6">Your Blog</h1>
+            <p></p>
+            <div class="bg-light p-5 rounded">
                 <div class="row g-4">
-                    <div class="col-12">
-                        <div class="text-center mx-auto" style="max-width: 700px;">
-                            <h1 class="text-primary">Get in touch</h1>
+                    {% for timestamp, post in data.blog.items() %}
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5 position-relative">
+                            <a class="position-absolute top-0 end-0">
+                                <img src="static/Images/editIcon.png" width="50" height="33" id="editIcon{{ loop.index }}"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal{{ loop.index }}" class="editIcon" onclick="setPostIDtoEdit('{{ timestamp }}')">
+                            </a>
+                            <h4>{{ post.title }}</h4>
+                            <p>{{ post.description }}</p>
                         </div>
                     </div>
-                    <div class="col-lg-7">
-                        <form action="" class="">
-                            <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
-                            <input type="email" class="w-100 form-control border-0 py-3 mb-4"
-                                placeholder="Enter Your Email">
-                            <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10"
-                                placeholder="Your Message"></textarea>
-                            <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary "
-                                type="submit">Submit</button>
-                        </form>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="d-flex p-4 rounded mb-4 bg-white">
-                            <i class="fas fa-envelope fa-2x text-primary me-4"></i>
-                            <div>
-                                <h4>Email me</h4>
-                                <p class="mb-2">joshualongyx@joshua-long-yx.tech</p>
-                            </div>
-                        </div>
-                        <div class="d-flex p-4 rounded bg-white">
-                            <i class="fab fa-github fa-2x text-primary me-4"></i>
-                            <div>
-                                <h4>View my GitHub</h4>
-                                <a href="https://github.com/Sadliquid">
-                                    <p class="mb-2" id="contactDescription">Sadliquid</p>
-                                </a>
+                    <div class="modal fade" id="exampleModal{{ loop.index }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{ loop.index }}">Edit Blog Post</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="form-control mb-3" id="editTitle{{ loop.index }}" placeholder="New title" value="{{ post.title }}">
+                                    <textarea class="form-control mb-3" id="editDescription{{ loop.index }}" placeholder="New description">{{ post.description }}</textarea>
+                                    <div id="errorMessage"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="submitEdits('{{ loop.index }}')">Confirm edits</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {% if loop.index % 2 == 0 %}
+                    <div class="w-100"></div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
