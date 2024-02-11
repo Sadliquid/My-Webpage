@@ -27,6 +27,9 @@
 
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Axios JsDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -86,7 +89,7 @@
                 <div class="modal-body d-flex align-items-center">
                     <div class="input-group w-75 mx-auto d-flex">
                         <input type="search" class="form-control p-3" placeholder="What are you looking for?"
-                            aria-describedby="search-icon-1">
+                            aria-describedby="search-icon-1" required>
                         <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
@@ -106,15 +109,10 @@
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <form action="" class="">
-                            <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
-                            <input type="email" class="w-100 form-control border-0 py-3 mb-4"
-                                placeholder="Enter Your Email">
-                            <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10"
-                                placeholder="Your Message"></textarea>
-                            <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary "
-                                type="submit">Submit</button>
-                        </form>
+                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name" id="nameOfUser" required>
+                        <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Email" id="emailOfUser" required>
+                        <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message" id="messageOfUser" required></textarea>
+                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary" type="submit" onclick="submitContactForm()">Submit Contact Form</button>
                     </div>
                     <div class="col-lg-5">
                         <div class="d-flex p-4 rounded mb-4 bg-white">

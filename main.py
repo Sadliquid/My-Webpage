@@ -129,5 +129,30 @@ def submitPost():
     write_json('storage.json', data)
     return 'SUCCESS. Post Submitted.'
 
+@app.route('/submitContactForm', methods=['POST'])
+def submitContactForm():
+    if "nameOfUser" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "emailOfUser" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "messageOfUser" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    nameOfUser = request.json['nameOfUser']
+    emailOfUser = request.json['emailOfUser']
+    messageOfUser = request.json['messageOfUser']
+
+    data = read_json('storage.json')
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    newMessage = {
+        "name": nameOfUser,
+        "email": emailOfUser,
+        "message": messageOfUser,
+    }
+    data["contactForms"][formatted_time] = newMessage
+    write_json('storage.json', data)
+    return 'SUCCESS. Message Submitted.'
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -355,3 +355,52 @@ function submitPost(){
         });
 }
 
+function submitContactForm(){
+    const nameOfUser = document.getElementById("nameOfUser").value
+    const emailOfUser = document.getElementById("emailOfUser").value
+    const messageOfUser = document.getElementById("messageOfUser").value
+
+    if (nameOfUser == ""){
+        alert("Name cannot be empty!")
+        return;
+    }
+    if (emailOfUser == ""){
+        alert("Email cannot be empty!")
+        return;
+    }
+    if (messageOfUser == ""){
+        alert("Message field cannot be empty!")
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `submitContactForm`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "nameOfUser": nameOfUser,
+            "emailOfUser": emailOfUser,
+            "messageOfUser": messageOfUser
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while submitting contact form. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            alert("Contact Form submitted!")
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error submitting contact form:', error);
+        });
+}

@@ -89,9 +89,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <input type="text" class="form-control mb-3" id="editTitle{{ loop.index }}"
-                                        placeholder="New title" value="{{ post.title }}">
+                                        placeholder="New title" value="{{ post.title }}" required>
                                     <textarea class="form-control mb-3" id="editDescription{{ loop.index }}"
-                                        placeholder="New description">{{ post.description }}</textarea>
+                                        placeholder="New description" required>{{ post.description }}</textarea>
                                 </div>
                                 <div class="modal-footer">
                                     <div id="editErrorMessage"></div>
