@@ -404,3 +404,33 @@ function submitContactForm(){
             console.error('Error submitting contact form:', error);
         });
 }
+
+function deleteContact(contactFormID){
+    axios({
+        method: 'post',
+        url: `deleteContact`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "contactFormID": contactFormID
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while deleting contact form. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error deleting contact form:', error);
+        });
+}

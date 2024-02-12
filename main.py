@@ -154,5 +154,17 @@ def submitContactForm():
     write_json('storage.json', data)
     return 'SUCCESS. Message Submitted.'
 
+@app.route('/deleteContact', methods=['POST'])
+def deleteContact():
+    if "contactFormID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    contactFormID = request.json['contactFormID']
+
+    data = read_json('storage.json')
+    data["contactForms"].pop(contactFormID)
+    write_json('storage.json', data)
+    return 'SUCCESS. Contact Form Deleted.'
+
 if __name__ == '__main__':
     app.run(debug=True)
