@@ -195,13 +195,9 @@ def editAward():
     editedAwardDescription = request.json['editedAwardDescription']
     editAwardID = request.json['editAwardID']
 
-    editedAward = {
-        "title": editedAwardTitle,
-        "description": editedAwardDescription,
-    }
-
     data = read_json('storage.json')
-    data["awards"][editAwardID] = editedAward
+    data["awards"][editAwardID]["title"] = editedAwardTitle
+    data["awards"][editAwardID]["description"] = editedAwardDescription
     write_json('storage.json', data)
     return 'SUCCESS. Award Edited.'
 

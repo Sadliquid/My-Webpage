@@ -640,3 +640,8 @@ html {
     background-color: navy;
     color: white;
 }
+
+#certificateImg {
+    display: flex;
+    justify-content: center;
+}

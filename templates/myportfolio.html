@@ -102,27 +102,41 @@
                 <h3 class="text-center text-blue display-6" id="awardsHeader">Awards:</h3>
                 <div class="row g-4">
                     {% for timestamp, award in data.awards.items() %}
-                        <div class="col-md-6">
-                            <div class="counter bg-white rounded p-5">
-                                <h4>{{ award.title }}</h4>
-                                <p>{{ award.description }}</p>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal"
-                                id="viewCertificateButton">View Certificate</button>
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5">
+                            <h4>{{ award.title }}</h4>
+                            <p>{{ award.description }}</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#certificateModal{{ loop.index }}" id="viewCertificateButton">View
+                                Certificate</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="certificateModal{{ loop.index }}" tabindex="-1"
+                        aria-labelledby="certificateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editAwardModalLabel{{ loop.index }}">View Certificate
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ award.image }}" id="certificateImg" width="1100">
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="editAwardErrorMessage"></div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go
+                                        back</button>
+                                </div>
                             </div>
                         </div>
-                        {% if loop.index % 2 == 0 %}
-                            <div class="w-100"></div>
-                        {% endif %}
+                    </div>
+                    {% if loop.index % 2 == 0 %}
+                    <div class="w-100"></div>
+                    {% endif %}
                     {% endfor %}
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container-fluid testimonial py-5">
-        <div class="container py-5">
-            <div class="testimonial-header text-center">
             </div>
         </div>
     </div>
