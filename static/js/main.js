@@ -482,3 +482,44 @@ function editAward(index){
             console.error('Error editing award:', error);
         });
 }
+
+function addAward(){
+    const awardTitle = document.getElementById("awardTitle").value
+    const awardDescription = document.getElementById("awardDescription").value
+
+    if (awardTitle == ""){
+        document.getElementById("addAwardErrorMessage").innerHTML = "Title cannot be empty!"
+    }
+    if (awardDescription == ""){
+        document.getElementById("addAwardErrorMessage").innerHTML = "Description cannot be empty!"
+    }
+
+    axios({
+        method: 'post',
+        url: `addAward`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "awardTitle": awardTitle,
+            "awardDescription": awardDescription,
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while adding award. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error adding award:', error);
+        });
+}

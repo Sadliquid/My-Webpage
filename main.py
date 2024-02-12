@@ -201,5 +201,26 @@ def editAward():
     write_json('storage.json', data)
     return 'SUCCESS. Award Edited.'
 
+@app.route('/addAward', methods=['POST'])
+def addAward():
+    if "awardTitle" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "awardDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    awardTitle = request.json['awardTitle']
+    awardDescription = request.json['awardDescription']
+
+    data = read_json('storage.json')
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    newAward = {
+        "title": awardTitle,
+        "description": awardDescription,
+    }
+    data["awards"][formatted_time] = newAward
+    write_json('storage.json', data)
+    return 'SUCCESS. Award Added.'
+
 if __name__ == '__main__':
     app.run(debug=True)

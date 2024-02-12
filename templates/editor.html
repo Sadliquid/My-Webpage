@@ -215,8 +215,6 @@
                             </a>
                             <h4>{{ award.title }}</h4>
                             <p>{{ award.description }}</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal"
-                                id="viewCertificateButton">View Certificate</button>
                         </div>
                     </div>
                     <div class="modal fade" id="editAwardModal{{ loop.index }}" tabindex="-1"
@@ -248,6 +246,28 @@
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="addAwardButtonDiv">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAwardModal"
+        id="addAwardButton">Add an award</button>
+    </div>
+    <div class="modal fade" id="addAwardModal" tabindex="-1" aria-labelledby="addAwardModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAwardModalLabel">Add an Award</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" id="awardTitle" placeholder="Award title" required>
+                    <textarea class="form-control mb-3" id="awardDescription" placeholder="Award description" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <div id="addAwardErrorMessage"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addAward()">Add it!</button>
                 </div>
             </div>
         </div>
