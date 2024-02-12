@@ -532,3 +532,33 @@ function addAward(){
         });
     };
 }
+
+function deleteAward(awardID){
+    axios({
+        method: 'post',
+        url: `deleteAward`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "awardID": awardID
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while deleting award. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error deleting award:', error);
+        });
+}

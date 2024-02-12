@@ -241,5 +241,17 @@ def addAward():
     write_json('storage.json', data)
     return 'SUCCESS. Award Added.'
 
+@app.route('/deleteAward', methods=['POST'])
+def deleteAward():
+    if "awardID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    awardID = request.json['awardID']
+
+    data = read_json('storage.json')
+    data["awards"].pop(awardID)
+    write_json('storage.json', data)
+    return 'SUCCESS. Award Deleted.'
+
 if __name__ == '__main__':
     app.run(debug=True)
