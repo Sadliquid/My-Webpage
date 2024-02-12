@@ -247,11 +247,11 @@ function submitEdits(index){
     const editedDescription = document.getElementById('editDescription' + index).value;
 
     if (editedTitle == ""){
-        document.getElementById("editErrorMessage").innerHTML = "Title cannot be empty!";
+        alert("Title cannot be empty!");
         return;
     }
     if (editedDescription == ""){
-        document.getElementById("editErrorMessage").innerHTML = "Description cannot be empty!";
+        alert("Description cannot be empty!");
         return;
     }
 
@@ -321,11 +321,11 @@ function submitPost(){
     const postDescription = document.getElementById("postDescription").value;
 
     if (postTitle == ""){
-        document.getElementById("createErrorMessage").innerHTML = "Title cannot be empty!";
+        alert("Title cannot be empty!");
         return;
     }
     if (postDescription == ""){
-        document.getElementById("createErrorMessage").innerHTML = "Description cannot be empty!";
+        alert("Description cannot be empty!");
         return;
     }
 
@@ -444,11 +444,11 @@ function editAward(index){
     const editedAwardDescription = document.getElementById('editAwardDescription' + index).value;
 
     if (editedAwardTitle == ""){
-        document.getElementById("editAwardErrorMessage").innerHTML = "Award title cannot be empty!";
+        alert("Award title cannot be empty!");
         return;
     }
     if (editedAwardDescription == ""){
-        document.getElementById("editAwardErrorMessage").innerHTML = "Award description cannot be empty!";
+        alert("Award description cannot be empty!");
         return;
     }
 
@@ -486,14 +486,14 @@ function editAward(index){
 function addAward(){
     const awardTitle = document.getElementById("awardTitle").value
     const awardDescription = document.getElementById("awardDescription").value
-    const awardImage = document.getElementById("awardImage").files[0]; // Get the selected file
+    const awardImage = document.getElementById("awardImage").files[0];
 
     if (awardTitle == ""){
-        document.getElementById("addAwardErrorMessage").innerHTML = "Title cannot be empty!"
+        alert("Title cannot be empty!");
         return;
     }
     if (awardDescription == ""){
-        document.getElementById("addAwardErrorMessage").innerHTML = "Description cannot be empty!"
+        alert("Description cannot be empty!");
         return;
     }
 

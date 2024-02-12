@@ -645,3 +645,28 @@ html {
     display: flex;
     justify-content: center;
 }
+
+#addAwardButton {
+    background-color: navy;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid navy;
+    transition: 0.2s ease-in-out;
+}
+
+#addAwardButton:hover {
+    background-color: white;
+    color: navy;
+    border: 2px solid navy;
+    transition: 0.2s ease-in-out;
+}
+
+#addAwardButtonDiv {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+    margin-bottom: 50px;
+}

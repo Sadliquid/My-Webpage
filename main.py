@@ -213,6 +213,9 @@ def addAward():
         return "ERROR: Award description not provided."
     if "awardImage" not in data:
         return "ERROR: Image data not provided."
+    
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
     awardTitle = data['awardTitle']
     awardDescription = data['awardDescription']
@@ -222,15 +225,13 @@ def addAward():
         return "UERROR: Award title and description cannot be empty."
 
     image_data = base64.b64decode(awardImageData)
-    filename = "award_image.jpg"
+    filename = str(formatted_time) + ".png"
     image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
     with open(image_path, "wb") as image_file:
         image_file.write(image_data)
 
     data = read_json('storage.json')
-    current_time = datetime.datetime.now()
-    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
     newAward = {
         "title": awardTitle,
         "description": awardDescription,
