@@ -3,23 +3,50 @@ import datetime
 
 app = Flask(__name__)
 
+def read_json(filename):
+    with open(filename, "r") as file:
+        data = json.load(file)
+    return data
+
+def write_json(filename, data):
+    with open(filename, "w") as file:
+        json.dump(data, file, indent=4)
+
 @app.route('/')
 def index():
     db = open('storage.json', "r")
     data = json.load(db)
+    if data["admin"]["loginStatus"] == "True":
+        data["admin"]["loginStatus"] = "False"
+        write_json('storage.json', data)
     return render_template('index.html', data=data)
 
 @app.route('/portfolio')
 def portfolio():
-    return render_template('myportfolio.html')
+    db = open('storage.json', "r")
+    data = json.load(db)
+    if data["admin"]["loginStatus"] == "True":
+        data["admin"]["loginStatus"] = "False"
+        write_json('storage.json', data)
+    return render_template('myportfolio.html', data=data)
 
 @app.route('/testimonial')
 def testimonial():
-    return render_template('testimonial.html')
+    db = open('storage.json', "r")
+    data = json.load(db)
+    if data["admin"]["loginStatus"] == "True":
+        data["admin"]["loginStatus"] = "False"
+        write_json('storage.json', data)
+    return render_template('testimonial.html', data=data)
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    db = open('storage.json', "r")
+    data = json.load(db)
+    if data["admin"]["loginStatus"] == "True":
+        data["admin"]["loginStatus"] = "False"
+        write_json('storage.json', data)
+    return render_template('contact.html', data=data)
 
 @app.route('/admin')
 def about():
@@ -32,16 +59,6 @@ def about():
 @app.route('/error')
 def error():
     return render_template('error.html')
-
-def read_json(filename):
-    with open(filename, "r") as file:
-        data = json.load(file)
-    return data
-
-# Function to write to the JSON file
-def write_json(filename, data):
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
 
 @app.route('/login', methods=['POST'])
 def login():
