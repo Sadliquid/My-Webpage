@@ -72,7 +72,7 @@ def login():
     securityKey = request.json['securityKey']
 
     current_time = datetime.now()
-    logout_time = current_time + timedelta(minutes=1)
+    logout_time = current_time + timedelta(minutes=10)
 
     data = read_json('storage.json')
     if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
