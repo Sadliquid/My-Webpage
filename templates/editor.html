@@ -251,8 +251,8 @@
         </div>
     </div>
     <div id="addAwardButtonDiv">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAwardModal"
-        id="addAwardButton">Add an award</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAwardModal" id="addAwardButton">Add
+            an award</button>
     </div>
     <div class="modal fade" id="addAwardModal" tabindex="-1" aria-labelledby="addAwardModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -263,11 +263,14 @@
                 </div>
                 <div class="modal-body">
                     <input type="text" class="form-control mb-3" id="awardTitle" placeholder="Award title" required>
-                    <textarea class="form-control mb-3" id="awardDescription" placeholder="Award description" required></textarea>
+                    <textarea class="form-control mb-3" id="awardDescription" placeholder="Award description"
+                        required></textarea>
+                    <input type="file" class="form-control mb-3" id="awardImage" accept="image/*" required>
                 </div>
                 <div class="modal-footer">
                     <div id="addAwardErrorMessage"></div>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addAward()">Add it!</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addAward()">Add
+                        it!</button>
                 </div>
             </div>
         </div>

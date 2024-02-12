@@ -486,25 +486,33 @@ function editAward(index){
 function addAward(){
     const awardTitle = document.getElementById("awardTitle").value
     const awardDescription = document.getElementById("awardDescription").value
+    const awardImage = document.getElementById("awardImage").files[0]; // Get the selected file
 
     if (awardTitle == ""){
         document.getElementById("addAwardErrorMessage").innerHTML = "Title cannot be empty!"
+        return;
     }
     if (awardDescription == ""){
         document.getElementById("addAwardErrorMessage").innerHTML = "Description cannot be empty!"
+        return;
     }
 
-    axios({
-        method: 'post',
-        url: `addAward`,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: {
-            "awardTitle": awardTitle,
-            "awardDescription": awardDescription,
-        }
-    })
+    // Read the file as base64
+    const reader = new FileReader();
+    reader.readAsDataURL(awardImage);
+    reader.onload = function () {
+        const imageData = reader.result.split(',')[1]; // Extract base64 data
+        const requestData = {
+            awardTitle: awardTitle,
+            awardDescription: awardDescription,
+            awardImage: imageData
+        };
+
+        axios.post('addAward', requestData, {
+            headers: {
+                'Content-Type': 'application/json' // Set content type to application/json
+            }
+        })
         .then(function (response) {
             if (response.data.startsWith("ERROR:")) {
                 console.log(response.data)
@@ -522,4 +530,5 @@ function addAward(){
         .catch(function (error) {
             console.error('Error adding award:', error);
         });
+    };
 }

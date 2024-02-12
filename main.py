@@ -1,7 +1,9 @@
 from flask import Flask, render_template, json, request
-import datetime
+import datetime, base64, os
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = 'static/Images'
 
 def read_json(filename):
     with open(filename, "r") as file:
@@ -203,13 +205,28 @@ def editAward():
 
 @app.route('/addAward', methods=['POST'])
 def addAward():
-    if "awardTitle" not in request.json:
-        return "ERROR: One or more required payloads missing."
-    if "awardDescription" not in request.json:
-        return "ERROR: One or more required payloads missing."
-    
-    awardTitle = request.json['awardTitle']
-    awardDescription = request.json['awardDescription']
+    data = request.json
+
+    if "awardTitle" not in data:
+        return "ERROR: Award title not provided."
+    if "awardDescription" not in data:
+        return "ERROR: Award description not provided."
+    if "awardImage" not in data:
+        return "ERROR: Image data not provided."
+
+    awardTitle = data['awardTitle']
+    awardDescription = data['awardDescription']
+    awardImageData = data['awardImage']
+
+    if awardTitle == "" or awardDescription == "":
+        return "UERROR: Award title and description cannot be empty."
+
+    image_data = base64.b64decode(awardImageData)
+    filename = "award_image.jpg"
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+    with open(image_path, "wb") as image_file:
+        image_file.write(image_data)
 
     data = read_json('storage.json')
     current_time = datetime.datetime.now()
@@ -217,6 +234,7 @@ def addAward():
     newAward = {
         "title": awardTitle,
         "description": awardDescription,
+        "image": image_path
     }
     data["awards"][formatted_time] = newAward
     write_json('storage.json', data)
