@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Panel</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/lightbox/css/lightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Axios JsDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="spinner"
+        class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <div class="container-fluid fixed-top">
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl" id="editorNavbar">
+                <a href="/" class="navbar-brand">
+                    <h1 class="text-primary display-6">Joshua's Website</h1>
+                </a>
+                <button type="button" id="logoutButton" onclick="logout()">Log out</button>
+            </nav>
+        </div>
+    </div>
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-blue display-6">Admin Panel</h1>
+    </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <h1 class="text-center text-blue display-6">Your Blog</h1>
+            <p></p>
+            <div class="bg-light p-5 rounded">
+                <div class="row g-4">
+                    {% if data.blog|length == 0 %}
+                    <div class="col-12">
+                        <h3 class="text-center">No blog posts yet</h3>
+                    </div>
+                    {% endif %}
+                    {% for timestamp, post in data.blog.items() %}
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5 position-relative">
+                            <a class="position-absolute top-0 end-0">
+                                <img src="static/Images/editIcon.png" width="50" height="33"
+                                    id="editIcon{{ loop.index }}" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal{{ loop.index }}" class="editIcon"
+                                    onclick="setPostIDtoEdit('{{ timestamp }}')">
+                            </a>
+                            <h4>{{ post.title }}</h4>
+                            <p>{{ post.description }}</p>
+                            <button type="button" class="btn btn-danger btn-sm position-absolute bottom-0 end-0"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ loop.index }}"
+                                id="deleteButton">Delete</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal{{ loop.index }}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{ loop.index }}">Edit Blog Post
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="form-control mb-3" id="editTitle{{ loop.index }}"
+                                        placeholder="New title" value="{{ post.title }}" required>
+                                    <textarea class="form-control mb-3" id="editDescription{{ loop.index }}"
+                                        placeholder="New description" required>{{ post.description }}</textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="editErrorMessage"></div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        onclick="submitEdits('{{ loop.index }}')">Confirm edits</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="deleteModal{{ loop.index }}" tabindex="-1"
+                        aria-labelledby="deleteModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel{{ loop.index }}">Confirm Deletion</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this post?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="deletePost('{{ timestamp }}')">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if loop.index % 2 == 0 %}
+                    <div class="w-100"></div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createPostButtonDiv">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPostModal"
+            id="createPostButton">Create New Post</button>
+    </div>
+    <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newPostModalLabel">Create New Blog Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" id="postTitle" placeholder="Title:">
+                    <textarea class="form-control mb-3" id="postDescription" placeholder="Description:"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <div id="createErrorMessage"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="submitPost()">Post
+                        it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <h1 class="text-center text-blue display-6">Contact Forms</h1>
+            <p></p>
+            <div class="bg-light p-5 rounded">
+                <div class="row g-4">
+                    {% for timestamp, contactForm in data.contactForms.items() %}
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5">
+                            <h4>Name: {{ contactForm.name }}</h4>
+                            <p>Email: {{ contactForm.email }}</p>
+                            <p>Message: {{ contactForm.message }}</p>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#deleteContactModal{{ loop.index }}">Delete</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="deleteContactModal{{ loop.index }}" tabindex="-1"
+                        aria-labelledby="deleteContactModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteContactModalLabel{{ loop.index }}">Confirm
+                                        Deletion of Contact Form</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this contact form?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="deleteContact('{{ timestamp }}')">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if loop.index % 2 == 0 %}
+                    <div class="w-100"></div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="bg-light p-5 rounded">
+                <h3 class="text-center text-blue display-6" id="awardsHeader">Your Awards:</h3>
+                <div class="row g-4">
+                    {% for timestamp, award in data.awards.items() %}
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5 position-relative">
+                            <a class="position-absolute top-0 end-0">
+                                <img src="static/Images/editIcon.png" width="50" height="33"
+                                    id="editIcon{{ loop.index }}" data-bs-toggle="modal"
+                                    data-bs-target="#editAwardModal{{ loop.index }}" class="editIcon"
+                                    onclick="setAwardIDtoEdit('{{ timestamp }}')">
+                            </a>
+                            <h4>{{ award.title }}</h4>
+                            <p>{{ award.description }}</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal"
+                                id="viewCertificateButton">View Certificate</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="editAwardModal{{ loop.index }}" tabindex="-1"
+                        aria-labelledby="editAwardModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editAwardModalLabel{{ loop.index }}">Edit Award</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="form-control mb-3" id="editAwardTitle{{ loop.index }}"
+                                        placeholder="New award title" value="{{ award.title }}" required>
+                                    <textarea class="form-control mb-3" id="editAwardDescription{{ loop.index }}"
+                                        placeholder="New award description" required>{{ award.description }}</textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="editAwardErrorMessage"></div>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-white" onclick="editAward('{{ loop.index }}')"
+                                        id="confirmAwardEditsButton">Confirm edits</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if loop.index % 2 == 0 %}
+                    <div class="w-100"></div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/lightbox/lightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

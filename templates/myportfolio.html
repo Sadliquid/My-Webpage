@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Joshua's Portfolio</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/lightbox/css/lightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div id="spinner"
+        class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
+                            class="text-white">joshualongyx@joshua-long-yx.tech</a></small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="/" class="text-white"><small class="text-white mx-2">Home</small>/</a>
+                    <a href="/portfolio" class="text-white"><small class="text-white mx-2">Portfolio</small>/</a>
+                    <a href="/testimonial" class="text-white"><small class="text-white ms-2">Testimonial</small> /</a>
+                    <a href="/contact" class="text-white"><small class="text-white ms-2">Contact Me</small></a>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <a href="/" class="navbar-brand">
+                    <h1 class="text-primary display-6">Joshua's Website</h1>
+                </a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="/" class="nav-item nav-link">Home</a>
+                        <a href="/portfolio" class="nav-item nav-link active">Portfolio</a>
+                        <a href="/testimonial" class="nav-item nav-link">Testimonial</a>
+                        <a href="/contact" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <div class="d-flex m-3 me-0">
+                        <button
+                            class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
+                            data-bs-toggle="modal" data-bs-target="#searchModal"><i
+                                class="fas fa-search text-primary"></i></button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <div class="input-group w-75 mx-auto d-flex">
+                        <input type="search" class="form-control p-3" placeholder="What are you looking for?"
+                            aria-describedby="search-icon-1" required>
+                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-blue display-6">My Portfolio</h1>
+    </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="bg-light p-5 rounded">
+                <h3 class="text-center text-blue display-6" id="awardsHeader">Awards:</h3>
+                <div class="row g-4">
+                    {% for timestamp, award in data.awards.items() %}
+                        <div class="col-md-6">
+                            <div class="counter bg-white rounded p-5">
+                                <h4>{{ award.title }}</h4>
+                                <p>{{ award.description }}</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal"
+                                id="viewCertificateButton">View Certificate</button>
+                            </div>
+                        </div>
+                        {% if loop.index % 2 == 0 %}
+                            <div class="w-100"></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid testimonial py-5">
+        <div class="container py-5">
+            <div class="testimonial-header text-center">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/lightbox/lightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
