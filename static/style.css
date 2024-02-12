@@ -599,3 +599,32 @@ html {
     justify-content: center;
     margin-bottom: 20px;
 }
+
+#testimonialParagraph {
+    text-align: left;
+}
+
+.endingName {
+    margin-top: 40px;
+    font-style: italic;
+    margin-bottom: -20px;
+}
+
+#viewTestimonialButton {
+    margin-bottom: -20px;
+    margin-top: 50px;
+    background-color: navy;
+    color: white;
+}
+
+#viewTestimonialButton:hover {
+    border: 1px solid navy;
+    background-color: white;
+    color: navy;
+}
+
+#testimonialImages {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
