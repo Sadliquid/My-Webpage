@@ -1,5 +1,5 @@
-from flask import Flask, render_template, json, request, redirect, url_for
-from datetime import datetime, timedelta
+from flask import Flask, render_template, json, request
+import datetime
 
 app = Flask(__name__)
 
@@ -60,10 +60,8 @@ def about():
 def error():
     return render_template('error.html')
 
-logout_time = None
 @app.route('/login', methods=['POST'])
 def login():
-    global logout_time
     if "loginUsername" not in request.json or "loginPassword" not in request.json or "securityKey" not in request.json:
         return "ERROR: One or more required payloads missing."
     
@@ -71,26 +69,13 @@ def login():
     loginPassword = request.json['loginPassword']
     securityKey = request.json['securityKey']
 
-    current_time = datetime.now()
-    logout_time = current_time + timedelta(minutes=10)
-
     data = read_json('storage.json')
     if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
         data["admin"]["loginStatus"] = "True"
         write_json('storage.json', data)
-        print(f"Login time: {current_time}")
-        print(f"Logout time: {logout_time}")
         return 'SUCCESS. Access Granted.'
     else:
-        return 'ERROR: Invalid Login Credentials.'
-    
-@app.before_request
-def checkLoginStatus():
-    global logout_time
-    if logout_time is not None and datetime.now() > logout_time:
-        data = read_json('storage.json')
-        data["admin"]["loginStatus"] = "False"
-        write_json('storage.json', data)
+        return 'UERROR: Invalid Login Credentials.'
     
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -105,7 +90,7 @@ def editor():
     db = open ('storage.json', "r")
     data = json.load(db)
     if data["admin"]["loginStatus"] == "False":
-        return redirect(url_for('error'))
+        return render_template('error.html')
     return render_template('editor.html', data=data)
 
 @app.route('/editPost', methods=['POST'])
