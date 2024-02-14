@@ -50,7 +50,7 @@ def check_session():
     if session.get('logged_in') and session.get('last_interaction'):
         last_interaction = session['last_interaction']
         current_time = datetime.datetime.now(pytz.utc)
-        if (current_time - last_interaction).total_seconds() > 2 * 60: #Change timing later
+        if (current_time - last_interaction).total_seconds() > 30 * 60:
             session.clear()
             return render_template('error.html')
 
