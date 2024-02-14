@@ -103,12 +103,14 @@
                 <div class="row g-4">
                     {% for timestamp, award in data.awards.items() %}
                     <div class="col-md-6">
-                        <div class="counter bg-white rounded p-5">
-                            <h4>{{ award.title }}</h4>
-                            <p>{{ award.description }}</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#certificateModal{{ loop.index }}" id="viewCertificateButton">View
-                                Certificate</button>
+                        <div class="counter bg-white rounded p-5" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div>
+                                <h4>{{ award.title }}</h4>
+                                <p>{{ award.description }}</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal{{ loop.index }}" id="viewCertificateButton">View Certificate</button>
+                            </div>
                         </div>
                     </div>
                     <div class="modal fade" id="certificateModal{{ loop.index }}" tabindex="-1"
