@@ -37,8 +37,8 @@ def contact():
 
 @app.route('/admin')
 def about():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
+    if session.get('logged_in'):
+        return render_template('loggedin.html')
     return render_template('admin.html')
 
 @app.route('/error')
@@ -68,13 +68,13 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('token', None)
-    return redirect(url_for('index'))
+    return render_template('index.html')
 
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
     if not session.get('logged_in') or session.get('token') is None:
-        return redirect(url_for('login'))
+        return render_template('error.html')
 
     with open('storage.json', "r") as db:
         data = json.load(db)
