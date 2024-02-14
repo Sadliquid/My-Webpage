@@ -1,5 +1,5 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for
-import datetime, base64, os, secrets
+import datetime, base64, os, secrets, pytz
 
 app = Flask(__name__)
 
@@ -45,6 +45,15 @@ def about():
 def error():
     return render_template('error.html')
 
+@app.before_request
+def check_session():
+    if session.get('logged_in') and session.get('last_interaction'):
+        last_interaction = session['last_interaction']
+        current_time = datetime.datetime.now(pytz.utc)
+        if (current_time - last_interaction).total_seconds() > 2 * 60: #Change timing later
+            session.clear()
+            return render_template('error.html')
+
 @app.route('/login', methods=['POST'])
 def login():
     if "loginUsername" not in request.json or "loginPassword" not in request.json or "securityKey" not in request.json:
@@ -57,6 +66,7 @@ def login():
     data = read_json('storage.json')
     if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
         session['logged_in'] = True
+        session['last_interaction'] = datetime.datetime.now(pytz.utc)
         session['username'] = loginUsername
         session['token'] = secrets.token_hex(16)
         return 'SUCCESS. Access Granted.'
