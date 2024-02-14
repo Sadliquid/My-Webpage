@@ -1,10 +1,10 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for
-import datetime, base64, os
+import datetime, base64, os, secrets
 
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static/Images'
-app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = secrets.token_hex(16)
 
 def read_json(filename):
     with open(filename, "r") as file:
@@ -57,6 +57,8 @@ def login():
     data = read_json('storage.json')
     if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
         session['logged_in'] = True
+        session['username'] = loginUsername
+        session['token'] = secrets.token_hex(16)
         return 'SUCCESS. Access Granted.'
     else:
         return 'UERROR: Invalid Login Credentials.'
@@ -64,13 +66,16 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    session.pop('username', None)
+    session.pop('token', None)
     return redirect(url_for('index'))
 
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
-    if not session.get('logged_in'):
+    if not session.get('logged_in') or session.get('token') is None:
         return redirect(url_for('login'))
+
     with open('storage.json', "r") as db:
         data = json.load(db)
         return render_template('editor.html', data=data)
