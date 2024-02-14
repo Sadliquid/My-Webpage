@@ -1,9 +1,10 @@
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template, json, request, session, redirect, url_for
 import datetime, base64, os
 
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static/Images'
+app.secret_key = os.environ.get('SECRET_KEY')
 
 def read_json(filename):
     with open(filename, "r") as file:
@@ -18,44 +19,26 @@ def write_json(filename, data):
 def index():
     db = open('storage.json', "r")
     data = json.load(db)
-    if data["admin"]["loginStatus"] == "True":
-        data["admin"]["loginStatus"] = "False"
-        write_json('storage.json', data)
     return render_template('index.html', data=data)
 
 @app.route('/portfolio')
 def portfolio():
     db = open('storage.json', "r")
     data = json.load(db)
-    if data["admin"]["loginStatus"] == "True":
-        data["admin"]["loginStatus"] = "False"
-        write_json('storage.json', data)
     return render_template('myportfolio.html', data=data)
 
 @app.route('/testimonial')
 def testimonial():
-    db = open('storage.json', "r")
-    data = json.load(db)
-    if data["admin"]["loginStatus"] == "True":
-        data["admin"]["loginStatus"] = "False"
-        write_json('storage.json', data)
-    return render_template('testimonial.html', data=data)
+    return render_template('testimonial.html')
 
 @app.route('/contact')
 def contact():
-    db = open('storage.json', "r")
-    data = json.load(db)
-    if data["admin"]["loginStatus"] == "True":
-        data["admin"]["loginStatus"] = "False"
-        write_json('storage.json', data)
-    return render_template('contact.html', data=data)
+    return render_template('contact.html')
 
 @app.route('/admin')
 def about():
-    with open('storage.json', "r") as db:
-        data = json.load(db)
-        if data["admin"]["loginStatus"] == "True":
-            return render_template('loggedin.html')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     return render_template('admin.html')
 
 @app.route('/error')
@@ -73,27 +56,24 @@ def login():
 
     data = read_json('storage.json')
     if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
-        data["admin"]["loginStatus"] = "True"
-        write_json('storage.json', data)
+        session['logged_in'] = True
         return 'SUCCESS. Access Granted.'
     else:
         return 'UERROR: Invalid Login Credentials.'
     
-@app.route('/logout', methods=['POST'])
+@app.route('/logout')
 def logout():
-    data = read_json('storage.json')
-    data["admin"]["loginStatus"] = "False"
-    write_json('storage.json', data)
-    return 'SUCCESS. Logged Out.'
+    session.pop('logged_in', None)
+    return redirect(url_for('index'))
 
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
-    db = open ('storage.json', "r")
-    data = json.load(db)
-    if data["admin"]["loginStatus"] == "False":
-        return render_template('error.html')
-    return render_template('editor.html', data=data)
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    with open('storage.json', "r") as db:
+        data = json.load(db)
+        return render_template('editor.html', data=data)
 
 @app.route('/editPost', methods=['POST'])
 def editPost():
