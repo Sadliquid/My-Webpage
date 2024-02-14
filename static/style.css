@@ -601,6 +601,7 @@ html {
 
 #testimonialParagraph {
     text-align: left;
+    margin-bottom: 40px;
 }
 
 .endingName {
@@ -674,4 +675,14 @@ html {
 #deleteAwardButton {
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+#emailLink {
+    color: navy;
+    transition: 0.2s ease-in-out;
+}
+
+#emailLink:hover {
+    color: #87CEEB;
+    transition: 0.2s ease-in-out;
 }

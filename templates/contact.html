@@ -109,23 +109,29 @@
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name" id="nameOfUser" required>
-                        <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Email" id="emailOfUser" required>
-                        <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message" id="messageOfUser" required></textarea>
-                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary" type="submit" onclick="submitContactForm()">Submit Contact Form</button>
+                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name"
+                            id="nameOfUser" required>
+                        <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Email"
+                            id="emailOfUser" required>
+                        <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"
+                            id="messageOfUser" required></textarea>
+                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary" type="submit"
+                            onclick="submitContactForm()">Submit Contact Form</button>
                     </div>
                     <div class="col-lg-5">
                         <div class="d-flex p-4 rounded mb-4 bg-white">
                             <i class="fas fa-envelope fa-2x text-primary me-4"></i>
                             <div>
                                 <h4>Email me</h4>
-                                <p class="mb-2">joshualongyx@joshua-long-yx.tech</p>
+                                <a href="mailto:joshualongyx@joshua-long-yx.tech">
+                                    <p class="mb-2" id="emailLink">joshualongyx@joshua-long-yx.tech</p>
+                                </a>
                             </div>
                         </div>
                         <div class="d-flex p-4 rounded bg-white">
                             <i class="fab fa-github fa-2x text-primary me-4"></i>
                             <div>
-                                <h4>View my GitHub</h4>
+                                <h4 id="viewMyGithub">View my GitHub</h4>
                                 <a href="https://github.com/Sadliquid">
                                     <p class="mb-2" id="contactDescription">Sadliquid</p>
                                 </a>
