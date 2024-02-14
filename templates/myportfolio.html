@@ -96,6 +96,45 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-blue display-6">My Portfolio</h1>
     </div>
+
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="bg-light p-5 rounded">
+                <h3 class="text-center text-blue display-6" id="awardsHeader">A little bit about myself</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="rounded p-5"
+                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div>
+                                <img src="static/Images/profileIcon.JPG" style="max-width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rounded p-5"
+                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div>
+                                <h4>Hey, I'm Joshua - a tech enthusiast.</h4>
+                                <p></p>
+                                <p>I'm a student developer taking a Diploma in Information Technology. I am also an
+                                    Apple Beta Software Tester and have been testing iOS 17 since its beta release!</p>
+                                <p>I took multiple courses to upskill myself, and am certified in Python, Swift and SQL.
+                                    I enjoy participating in hackathons too!</p>
+                                <p>I enjoy listening to music, watching movies, gaming, playing the piano, working out,
+                                    playing badminton and working on small projects.</p>
+                                <p>Want to know more? Check out my socials below!</p>
+                                <div class="d-flex justify-content-center" id="socialsDiv">
+                                    <a href="https://www.linkedin.com/in/joshua-long-1a21ba257/"><i class="fab fa-linkedin fa-2x text-primary me-4" id="socialsIcon"></i></a>
+                                    <a href="https://github.com/Sadliquid"><i class="fab fa-github fa-2x text-primary me-4" id="socialsIcon"></i></a>
+                                    <a href="https://www.instagram.com/joshua_still_thinking"><i class="fab fa-instagram fa-2x text-primary me-4" id="socialsIcon"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid py-5">
         <div class="container">
             <div class="bg-light p-5 rounded">
@@ -103,13 +142,16 @@
                 <div class="row g-4">
                     {% for timestamp, award in data.awards.items() %}
                     <div class="col-md-6">
-                        <div class="counter bg-white rounded p-5" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                        <div class="counter bg-white rounded p-5"
+                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
                             <div>
                                 <h4>{{ award.title }}</h4>
                                 <p>{{ award.description }}</p>
                             </div>
                             <div style="text-align: center;">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal{{ loop.index }}" id="viewCertificateButton">View Certificate</button>
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#certificateModal{{ loop.index }}" id="viewCertificateButton">View
+                                    Certificate</button>
                             </div>
                         </div>
                     </div>

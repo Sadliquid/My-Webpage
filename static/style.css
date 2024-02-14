@@ -686,3 +686,9 @@ html {
     color: #87CEEB;
     transition: 0.2s ease-in-out;
 }
+
+#socialsDiv {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
