@@ -157,6 +157,11 @@
             <p></p>
             <div class="bg-light p-5 rounded">
                 <div class="row g-4">
+                    {% if data.contactForms|length == 0 %}
+                    <div class="col-12">
+                        <h3 class="text-center">No contact forms received</h3>
+                    </div>
+                    {% endif %}
                     {% for timestamp, contactForm in data.contactForms.items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5">
