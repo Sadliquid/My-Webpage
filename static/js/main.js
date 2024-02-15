@@ -210,25 +210,14 @@ function logout(){
             'Content-Type': 'application/json',
         }
     })
-        .then(function (response) {
-            if (response.data.startsWith("ERROR:")) {
-                console.log(response.data)
-                alert("An error occured while logging out. Please try again.")
-                return;
-            }
-            else if (response.data.startsWith("UERROR:")) {
-                console.log(response.data)
-                alert(response.data.substring("UERROR: ".length))
-                return;
-            }
-            console.log(response.data)
+        .then(function () {
             document.getElementById("logoutButton").innerHTML = "Logging out..."
             setTimeout(function () {
                 window.location.href = "/admin";
             }, 2000);
         })
         .catch(function (error) {
-            console.error('Error logging in:', error);
+            console.error('Error logging out:', error);
         });
 }
 

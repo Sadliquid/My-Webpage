@@ -73,12 +73,14 @@ def login():
     else:
         return 'UERROR: Invalid Login Credentials.'
     
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('token', None)
-    return render_template('index.html')
+    db = open('storage.json', "r")
+    data = json.load(db)
+    return render_template('index.html', data=data)
 
 
 @app.route('/editor', methods=['GET', 'POST'])
