@@ -198,6 +198,14 @@
             <p></p>
             <div class="bg-light p-5 rounded">
                 <div class="row g-4">
+                    {% if data.blog.items()|length == 0 %}
+                    <div class="col-md-12">
+                        <div class="counter bg-white rounded p-5">
+                            <h4>No blog posts yet...</h4>
+                            <p>There are no blog posts at the moment. Please check back later.</p>
+                        </div>
+                    </div>
+                    {% endif %}
                     {% for timestamp, post in data.blog.items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5">
