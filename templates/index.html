@@ -198,7 +198,7 @@
             <p></p>
             <div class="bg-light p-5 rounded">
                 <div class="row g-4">
-                    {% if data.blog.items()|length == 0 %}
+                    {% if "placeholder" in data["Blog Posts"] %}
                     <div class="col-md-12">
                         <div class="counter bg-white rounded p-5">
                             <h4>No blog posts yet...</h4>
@@ -206,17 +206,19 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% for timestamp, post in data.blog.items() %}
+                    {% if "placeholder" not in data["Blog Posts"] %}
+                    {% for timestamp, post in data["Blog Posts"].items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5">
-                            <h4>{{ post.title }}</h4>
-                            <p>{{ post.description }}</p>
+                            <h4>{{ post.Title }}</h4>
+                            <p id="postDescriptionContent">{{ post.Description }}</p>
                         </div>
                     </div>
                     {% if loop.index % 2 == 0 %}
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

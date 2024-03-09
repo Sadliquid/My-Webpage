@@ -553,93 +553,93 @@ function deleteAward(awardID){
 }
 
 // Firebase testing
-function test_create(){
-    newPost = prompt("Enter new post: ")
-    if (newPost != ""){
-        axios({
-            method: 'post',
-            url: `/test_create`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                "newPost": newPost
-            }
-        })
-        .then(function (response) {
-            alert("Post created successfully!")
-        })
-        .catch(function (error) {
-            console.error('Error trying to create post:', error);
-        });
-    }
-}
+// function test_create(){
+//     newPost = prompt("Enter new post: ")
+//     if (newPost != ""){
+//         axios({
+//             method: 'post',
+//             url: `/test_create`,
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             data: {
+//                 "newPost": newPost
+//             }
+//         })
+//         .then(function (response) {
+//             alert("Post created successfully!")
+//         })
+//         .catch(function (error) {
+//             console.error('Error trying to create post:', error);
+//         });
+//     }
+// }
 
-function test_read(){
-    axios({
-        method: 'post',
-        url: '/test_read',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        data: {
-            "read_status": "True"
-        }
-    })
-    .then(function (response) {
-        var data = response.data;
+// function test_read(){
+//     axios({
+//         method: 'post',
+//         url: '/test_read',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         data: {
+//             "read_status": "True"
+//         }
+//     })
+//     .then(function (response) {
+//         var data = response.data;
 
-        var displayElement = document.getElementById('outputText');
-        var preElement = document.createElement('pre');
+//         var displayElement = document.getElementById('outputText');
+//         var preElement = document.createElement('pre');
 
-        preElement.innerHTML = JSON.stringify(data, null, 2);
-        displayElement.appendChild(preElement);
-    })
-    .catch(function (error) {
-        console.error('Error trying to read data:', error);
-    });
-}
+//         preElement.innerHTML = JSON.stringify(data, null, 2);
+//         displayElement.appendChild(preElement);
+//     })
+//     .catch(function (error) {
+//         console.error('Error trying to read data:', error);
+//     });
+// }
 
-function test_update(){
-    NewUserID = prompt("Enter new user ID: ")
-    if (NewUserID != ""){
-        axios({
-            method: 'post',
-            url: `/test_update`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                "NewUserID": NewUserID
-            }
-        })
-        .then(function (response) {
-            alert("Name changed successfully!")
-        })
-        .catch(function (error) {
-            console.error('Error trying to change name:', error);
-        });
-    }
-}
+// function test_update(){
+//     NewUserID = prompt("Enter new user ID: ")
+//     if (NewUserID != ""){
+//         axios({
+//             method: 'post',
+//             url: `/test_update`,
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             data: {
+//                 "NewUserID": NewUserID
+//             }
+//         })
+//         .then(function (response) {
+//             alert("Name changed successfully!")
+//         })
+//         .catch(function (error) {
+//             console.error('Error trying to change name:', error);
+//         });
+//     }
+// }
 
-function test_delete(){
-    postID = prompt("Enter post ID to delete: ")
-    if (postID != ""){
-        axios({
-            method: 'post',
-            url: `/test_delete`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                "postID": postID
-            }
-        })
-        .then(function (response) {
-            alert("Post deleted successfully!")
-        })
-        .catch(function (error) {
-            console.error('Error trying to delete post:', error);
-        });
-    }
-}
+// function test_delete(){
+//     postID = prompt("Enter post ID to delete: ")
+//     if (postID != ""){
+//         axios({
+//             method: 'post',
+//             url: `/test_delete`,
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             data: {
+//                 "postID": postID
+//             }
+//         })
+//         .then(function (response) {
+//             alert("Post deleted successfully!")
+//         })
+//         .catch(function (error) {
+//             console.error('Error trying to delete post:', error);
+//         });
+//     }
+// }

@@ -12,25 +12,16 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://my-personal-website-3bf9c-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
 
-def read_json(filename):
-    with open(filename, "r") as file:
-        data = json.load(file)
-    return data
-
-def write_json(filename, data):
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
-
 @app.route('/')
 def index():
-    db = open('storage.json', "r")
-    data = json.load(db)
+    ref = db.reference('/')
+    data = ref.get()
     return render_template('index.html', data=data)
 
 @app.route('/portfolio')
 def portfolio():
-    db = open('storage.json', "r")
-    data = json.load(db)
+    ref = db.reference('/')
+    data = ref.get()
     return render_template('myportfolio.html', data=data)
 
 @app.route('/testimonial')
@@ -55,52 +46,52 @@ def error():
 def firebase():
     return render_template('databaseTest.html')
 
-@app.route('/test_create', methods=['POST'])
-def test_create():
-    if "newPost" not in request.json:
-        return "ERROR: One or more payload parameters are missing."
+# @app.route('/test_create', methods=['POST'])
+# def test_create():
+#     if "newPost" not in request.json:
+#         return "ERROR: One or more payload parameters are missing."
     
-    newPost = request.json['newPost']
-    current_time = datetime.datetime.now()
-    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+#     newPost = request.json['newPost']
+#     current_time = datetime.datetime.now()
+#     formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
-    ref = db.reference('Blog Posts/Posts')
-    ref.child(formatted_time).set(newPost) 
-    return "New post added successfully"
+#     ref = db.reference('Blog Posts')
+#     ref.child(formatted_time).set(newPost) 
+#     return "New post added successfully"
 
-@app.route('/test_read', methods=['POST'])
-def test_read():
-    ref = db.reference('/')
-    data = ref.get()
-    return jsonify(data)
+# @app.route('/test_read', methods=['POST'])
+# def test_read():
+#     ref = db.reference('/')
+#     data = ref.get()
+#     return jsonify(data)
 
-@app.route('/test_update', methods=['POST'])
-def test_update():
-    if "NewUserID" not in request.json:
-        return "ERROR: One or more payload parameters are missing."
+# @app.route('/test_update', methods=['POST'])
+# def test_update():
+#     if "NewUserID" not in request.json:
+#         return "ERROR: One or more payload parameters are missing."
     
-    NewUserID = request.json['NewUserID']
+#     NewUserID = request.json['NewUserID']
 
-    ref = db.reference('User Data/User ID')
-    ref.set(NewUserID)
-    return "User ID updated successfully"
+#     ref = db.reference('User Data/User ID')
+#     ref.set(NewUserID)
+#     return "User ID updated successfully"
 
-@app.route('/test_delete', methods=['POST'])
-def test_delete():
-    if "postID" not in request.json:
-        return "ERROR: One or more payload parameters are missing."
+# @app.route('/test_delete', methods=['POST'])
+# def test_delete():
+#     if "postID" not in request.json:
+#         return "ERROR: One or more payload parameters are missing."
     
-    postID = request.json['postID']
+#     postID = request.json['postID']
 
-    ref = db.reference('Blog Posts/Posts')
-    ref.child(postID).delete()
+#     ref = db.reference('Blog Posts')
+#     ref.child(postID).delete()
 
-    data = ref.get()
-    if data is None or len(data) == 0:
-        print("No data found")  
-        ref.child('placeholder').set("") # Placeholder data to prevent empty database
+#     data = ref.get()
+#     if data is None or len(data) == 0:
+#         print("No data found")  
+#         ref.child('placeholder').set("") # Placeholder data to prevent empty database
 
-    return "Post deleted successfully"
+#     return "Post deleted successfully"
 
 @app.before_request
 def check_session():
@@ -120,8 +111,10 @@ def login():
     loginPassword = request.json['loginPassword']
     securityKey = request.json['securityKey']
 
-    data = read_json('storage.json')
-    if loginUsername == data["admin"]["username"] and loginPassword == data["admin"]["password"] and securityKey == data["admin"]["securityKey"]:
+    ref = db.reference('/')
+    data = ref.get()
+
+    if loginUsername == data["User Data"]["User ID"] and loginPassword == data["User Data"]["User Password"] and int(securityKey) == data["User Data"]["User Security Key"]:
         session['logged_in'] = True
         session['last_interaction'] = datetime.datetime.now(pytz.utc)
         session['username'] = loginUsername
@@ -135,8 +128,8 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('token', None)
-    db = open('storage.json', "r")
-    data = json.load(db)
+    ref = db.reference('/')
+    data = ref.get()
     return render_template('index.html', data=data)
 
 
@@ -145,9 +138,9 @@ def editor():
     if not session.get('logged_in') or session.get('token') is None:
         return render_template('error.html')
 
-    with open('storage.json', "r") as db:
-        data = json.load(db)
-        return render_template('editor.html', data=data)
+    ref = db.reference('/')
+    data = ref.get()
+    return render_template('editor.html', data=data)
 
 @app.route('/editPost', methods=['POST'])
 def editPost():
@@ -162,10 +155,14 @@ def editPost():
     editedDescription = request.json['editedDescription']
     editPostID = request.json['editPostID']
 
-    data = read_json('storage.json')
-    data["blog"][editPostID]["title"] = editedTitle
-    data["blog"][editPostID]["description"] = editedDescription
-    write_json('storage.json', data)
+    ref = db.reference('Blog Posts')
+    data = {
+        "Title": editedTitle,
+        "Description": editedDescription
+    }
+
+    ref.child(editPostID).set(data)
+
     return 'SUCCESS. Post Edited.'
 
 @app.route('/deletePost', methods=['POST'])
@@ -175,9 +172,12 @@ def deletePost():
     
     PostID = request.json['postID']
 
-    data = read_json('storage.json')
-    data["blog"].pop(PostID)
-    write_json('storage.json', data)
+    ref = db.reference('Blog Posts')
+    ref.child(PostID).delete()
+
+    data = ref.get()
+    if data is None or len(data) == 0:
+        ref.child('placeholder').set("")
     return 'SUCCESS. Post Deleted.'
 
 @app.route('/submitPost', methods=['POST'])
@@ -190,15 +190,23 @@ def submitPost():
     postTitle = request.json['postTitle']
     postDescription = request.json['postDescription']
 
-    data = read_json('storage.json')
+    ref = db.reference('Blog Posts')
+    data = ref.get()
+
     current_time = datetime.datetime.now()
     formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
     newPost = {
-        "title": postTitle,
-        "description": postDescription,
+        "Title": postTitle,
+        "Description": postDescription,
     }
-    data["blog"][formatted_time] = newPost
-    write_json('storage.json', data)
+
+    if "placeholder" in data:
+        ref.child(formatted_time).set(newPost)
+        ref.child('placeholder').delete()
+        return 'SUCCESS. Post Submitted.'
+
+    ref.child(formatted_time).set(newPost)
     return 'SUCCESS. Post Submitted.'
 
 @app.route('/submitContactForm', methods=['POST'])
@@ -214,16 +222,24 @@ def submitContactForm():
     emailOfUser = request.json['emailOfUser']
     messageOfUser = request.json['messageOfUser']
 
-    data = read_json('storage.json')
     current_time = datetime.datetime.now()
     formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
     newMessage = {
-        "name": nameOfUser,
-        "email": emailOfUser,
-        "message": messageOfUser,
+        "Name": nameOfUser,
+        "Email": emailOfUser,
+        "Message": messageOfUser,
     }
-    data["contactForms"][formatted_time] = newMessage
-    write_json('storage.json', data)
+
+    ref = db.reference('Contact Forms')
+    data = ref.get()
+
+    if "placeholder" in data:
+        ref.child(formatted_time).set(newMessage)
+        ref.child('placeholder').delete()
+        return 'SUCCESS. Message Submitted.'
+
+    ref.child(formatted_time).set(newMessage)
     return 'SUCCESS. Message Submitted.'
 
 @app.route('/deleteContact', methods=['POST'])
@@ -233,9 +249,13 @@ def deleteContact():
     
     contactFormID = request.json['contactFormID']
 
-    data = read_json('storage.json')
-    data["contactForms"].pop(contactFormID)
-    write_json('storage.json', data)
+    ref = db.reference('Contact Forms')
+    ref.child(contactFormID).delete()
+
+    data = ref.get()
+    if data is None or len(data) == 0:
+        ref.child('placeholder').set("") # Placeholder data to prevent empty database
+
     return 'SUCCESS. Contact Form Deleted.'
 
 @app.route('/editAward', methods=['POST'])
@@ -251,10 +271,13 @@ def editAward():
     editedAwardDescription = request.json['editedAwardDescription']
     editAwardID = request.json['editAwardID']
 
-    data = read_json('storage.json')
-    data["awards"][editAwardID]["title"] = editedAwardTitle
-    data["awards"][editAwardID]["description"] = editedAwardDescription
-    write_json('storage.json', data)
+    data = {
+        "Title": editedAwardTitle,
+        "Description": editedAwardDescription
+    }
+
+    ref = db.reference('Awards')
+    ref.child(editAwardID).set(data)
     return 'SUCCESS. Award Edited.'
 
 @app.route('/addAward', methods=['POST'])
@@ -285,14 +308,21 @@ def addAward():
     with open(image_path, "wb") as image_file:
         image_file.write(image_data)
 
-    data = read_json('storage.json')
     newAward = {
-        "title": awardTitle,
-        "description": awardDescription,
-        "image": image_path
+        "Title": awardTitle,
+        "Description": awardDescription,
+        "Image": image_path
     }
-    data["awards"][formatted_time] = newAward
-    write_json('storage.json', data)
+
+    ref = db.reference('Awards')
+    data = ref.get()
+
+    if "placeholder" in data:
+        ref.child(formatted_time).set(newAward)
+        ref.child('placeholder').delete()
+        return 'SUCCESS. Award Added.'
+    
+    ref.child(formatted_time).set(newAward)
     return 'SUCCESS. Award Added.'
 
 @app.route('/deleteAward', methods=['POST'])
@@ -302,9 +332,13 @@ def deleteAward():
     
     awardID = request.json['awardID']
 
-    data = read_json('storage.json')
-    data["awards"].pop(awardID)
-    write_json('storage.json', data)
+    ref = db.reference('Awards')
+    ref.child(awardID).delete()
+
+    data = ref.get()
+    if data is None or len(data) == 0:
+        ref.child('placeholder').set("") # Placeholder data to prevent empty database
+
     return 'SUCCESS. Award Deleted.'
 
 if __name__ == '__main__':
