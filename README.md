@@ -1,14 +1,29 @@
 ## Joshua's Portfolio
-This is my personal portfolio where I showcase an introduction of myself, my achievements, hobbies and work. I have included a feedback form where you'll be able to send a copy of your feedback directly to my email using Formspree, which will be greatly appreciated as it'll allow me to improve my webpage based on the given feedback.
+This is my personal webpage where I showcase an introduction of myself, a blog, my awards, testimonials and socials. Head over to <a href="joshua-long-yx.tech">my webpage</a> to know more about me!
 
-## Frameworks
+## Frameworks and tools
 -HTML (Hyper-Text Markup Language)
 
 -CSS (Cascading Style-Sheets)
 
 -Javascript
 
-## Features
-My webpage is highly focused on giving the ultimate best user experience. Various visual effects have been neatly incorporated into the webpage to provide smooth and seamless transitions. I used CSS Media Queries to resize my webpage according to the browser width, making it highly responsive on any device that you access my portfolio from.
+-Python
+
+-Jinja Templating Engine
+
+-JSON (Javascript Object Notation)
+
+-Bootstrap 5
+
+-Git version source control
+
+-Firebase Realtime Database
+
+-Axios CDN
+
+
+Thank you for checking out my webpage!
+
 
 ©️ Copyright 2023 Joshua Long. All rights reserved.
