@@ -692,3 +692,7 @@ html {
     display: flex;
     justify-content: space-between;
 }
+
+#postDescriptionContent {
+    text-align: left;
+}

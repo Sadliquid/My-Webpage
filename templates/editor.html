@@ -56,12 +56,13 @@
             <p></p>
             <div class="bg-light p-5 rounded">
                 <div class="row g-4">
-                    {% if data.blog|length == 0 %}
+                    {% if "placeholder" in data["Blog Posts"] %}
                     <div class="col-12">
                         <h3 class="text-center">No blog posts yet</h3>
                     </div>
                     {% endif %}
-                    {% for timestamp, post in data.blog.items() %}
+                    {% if "placeholder" not in data["Blog Posts"] %}
+                    {% for timestamp, post in data["Blog Posts"].items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5 position-relative">
                             <a class="position-absolute top-0 end-0">
@@ -70,8 +71,8 @@
                                     data-bs-target="#exampleModal{{ loop.index }}" class="editIcon"
                                     onclick="setPostIDtoEdit('{{ timestamp }}')">
                             </a>
-                            <h4>{{ post.title }}</h4>
-                            <p>{{ post.description }}</p>
+                            <h4>{{ post.Title }}</h4>
+                            <p>{{ post.Description }}</p>
                             <button type="button" class="btn btn-danger btn-sm position-absolute bottom-0 end-0"
                                 data-bs-toggle="modal" data-bs-target="#deleteModal{{ loop.index }}"
                                 id="deleteButton">Delete</button>
@@ -89,9 +90,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <input type="text" class="form-control mb-3" id="editTitle{{ loop.index }}"
-                                        placeholder="New title" value="{{ post.title }}" required>
+                                        placeholder="New title" value="{{ post.Title }}" required>
                                     <textarea class="form-control mb-3" id="editDescription{{ loop.index }}"
-                                        placeholder="New description" required>{{ post.description }}</textarea>
+                                        placeholder="New description" required>{{ post.Description }}</textarea>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -125,6 +126,7 @@
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -157,17 +159,18 @@
             <p></p>
             <div class="bg-light p-5 rounded">
                 <div class="row g-4">
-                    {% if data.contactForms|length == 0 %}
+                    {% if "placeholder" in data["Contact Forms"] %}
                     <div class="col-12">
                         <h3 class="text-center">No contact forms received</h3>
                     </div>
                     {% endif %}
-                    {% for timestamp, contactForm in data.contactForms.items() %}
+                    {% if "placeholder" not in data["Contact Forms"] %}
+                    {% for timestamp, contactForm in data["Contact Forms"].items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5">
-                            <h4>Name: {{ contactForm.name }}</h4>
-                            <p>Email: {{ contactForm.email }}</p>
-                            <p>Message: {{ contactForm.message }}</p>
+                            <h4>Name: {{ contactForm.Name }}</h4>
+                            <p>Email: {{ contactForm.Email }}</p>
+                            <p>Message: {{ contactForm.Message }}</p>
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#deleteContactModal{{ loop.index }}">Delete</button>
                         </div>
@@ -198,6 +201,7 @@
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -207,7 +211,13 @@
             <div class="bg-light p-5 rounded">
                 <h3 class="text-center text-blue display-6" id="awardsHeader">Your Awards:</h3>
                 <div class="row g-4">
-                    {% for timestamp, award in data.awards.items() %}
+                    {% if "placeholder" in data["Awards"] %}
+                    <div class="col-12">
+                        <h3 class="text-center">No awards listed yet...</h3>
+                    </div>
+                    {% endif %}
+                    {% if "placeholder" not in data["Awards"] %}
+                    {% for timestamp, award in data["Awards"].items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5 position-relative">
                             <a class="position-absolute top-0 end-0">
@@ -216,8 +226,8 @@
                                     data-bs-target="#editAwardModal{{ loop.index }}" class="editIcon"
                                     onclick="setAwardIDtoEdit('{{ timestamp }}')">
                             </a>
-                            <h4>{{ award.title }}</h4>
-                            <p>{{ award.description }}</p>
+                            <h4>{{ award.Title }}</h4>
+                            <p>{{ award.Description }}</p>
                             <button type="button" class="btn btn-danger btn-sm position-absolute bottom-0 end-0"
                                 data-bs-toggle="modal" data-bs-target="#deleteAwardModal{{ loop.index }}"
                                 id="deleteAwardButton">Delete</button>
@@ -234,9 +244,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <input type="text" class="form-control mb-3" id="editAwardTitle{{ loop.index }}"
-                                        placeholder="New award title" value="{{ award.title }}" required>
+                                        placeholder="New award title" value="{{ award.Title }}" required>
                                     <textarea class="form-control mb-3" id="editAwardDescription{{ loop.index }}"
-                                        placeholder="New award description" required>{{ award.description }}</textarea>
+                                        placeholder="New award description" required>{{ award.Description }}</textarea>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -252,7 +262,8 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteAwardModalLabel{{ loop.index }}">Confirm Deletion of Award</h5>
+                                    <h5 class="modal-title" id="deleteAwardModalLabel{{ loop.index }}">Confirm Deletion
+                                        of Award</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -272,6 +283,7 @@
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
