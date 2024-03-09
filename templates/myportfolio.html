@@ -140,21 +140,22 @@
             <div class="bg-light p-5 rounded">
                 <h3 class="text-center text-blue display-6" id="awardsHeader">Awards:</h3>
                 <div class="row g-4">
-                    {% if data.awards.items()|length == 0 %}
+                    {% if "placeholder" in data["Awards"] %}
                     <div class="col-md-12">
                         <div class="counter bg-white rounded p-5">
-                            <h4>No awards listed yet...</h4>
-                            <p>There are no awards listed at the moment. Please check back later.</p>
+                            <h4>No awards yet...</h4>
+                            <p>There are no awards at the moment. Please check back later.</p>
                         </div>
                     </div>
                     {% endif %}
-                    {% for timestamp, award in data.awards.items() %}
+                    {% if "placeholder" not in data["Awards"] %}
+                    {% for timestamp, award in data["Awards"].items() %}
                     <div class="col-md-6">
                         <div class="counter bg-white rounded p-5"
                             style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
                             <div>
-                                <h4>{{ award.title }}</h4>
-                                <p>{{ award.description }}</p>
+                                <h4>{{ award.Title }}</h4>
+                                <p>{{ award.Description }}</p>
                             </div>
                             <div style="text-align: center;">
                                 <button class="btn btn-primary" data-bs-toggle="modal"
@@ -174,7 +175,7 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="{{ award.image }}" id="certificateImg">
+                                    <img src="{{ award.Image }}" id="certificateImg">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go
@@ -187,6 +188,7 @@
                     <div class="w-100"></div>
                     {% endif %}
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
