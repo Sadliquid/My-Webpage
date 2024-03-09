@@ -46,53 +46,6 @@ def error():
 def firebase():
     return render_template('databaseTest.html')
 
-# @app.route('/test_create', methods=['POST'])
-# def test_create():
-#     if "newPost" not in request.json:
-#         return "ERROR: One or more payload parameters are missing."
-    
-#     newPost = request.json['newPost']
-#     current_time = datetime.datetime.now()
-#     formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
-
-#     ref = db.reference('Blog Posts')
-#     ref.child(formatted_time).set(newPost) 
-#     return "New post added successfully"
-
-# @app.route('/test_read', methods=['POST'])
-# def test_read():
-#     ref = db.reference('/')
-#     data = ref.get()
-#     return jsonify(data)
-
-# @app.route('/test_update', methods=['POST'])
-# def test_update():
-#     if "NewUserID" not in request.json:
-#         return "ERROR: One or more payload parameters are missing."
-    
-#     NewUserID = request.json['NewUserID']
-
-#     ref = db.reference('User Data/User ID')
-#     ref.set(NewUserID)
-#     return "User ID updated successfully"
-
-# @app.route('/test_delete', methods=['POST'])
-# def test_delete():
-#     if "postID" not in request.json:
-#         return "ERROR: One or more payload parameters are missing."
-    
-#     postID = request.json['postID']
-
-#     ref = db.reference('Blog Posts')
-#     ref.child(postID).delete()
-
-#     data = ref.get()
-#     if data is None or len(data) == 0:
-#         print("No data found")  
-#         ref.child('placeholder').set("") # Placeholder data to prevent empty database
-
-#     return "Post deleted successfully"
-
 @app.before_request
 def check_session():
     if session.get('logged_in') and session.get('last_interaction'):
