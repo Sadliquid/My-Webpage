@@ -42,10 +42,6 @@ def about():
 def error():
     return render_template('error.html')
 
-@app.route('/firebase')
-def firebase():
-    return render_template('databaseTest.html')
-
 @app.before_request
 def check_session():
     if session.get('logged_in') and session.get('last_interaction'):
