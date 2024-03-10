@@ -9,7 +9,7 @@ app.secret_key = secrets.token_hex(16)
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://my-personal-website-3bf9c-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    'databaseURL': 'https://my-personal-website-c713e-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
 
 @app.route('/')
