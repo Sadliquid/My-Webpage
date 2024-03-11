@@ -150,21 +150,15 @@
 })(jQuery);
 
 function login() {
-    const loginUsername = document.getElementById("loginUsername").value;
+    const loginEmail = document.getElementById("loginEmail").value;
     const loginPassword = document.getElementById("loginPassword").value;
-    const securityKey = document.getElementById("securityKey").value;
 
-    if (loginUsername == "") {
-        alert("Please enter a valid username");
+    if (loginEmail == "") {
+        alert("Please enter a valid email");
         return;
     }
     if (loginPassword == "") {
         alert("Please enter a valid password");
-        return;
-    }
-
-    if (securityKey == ""){
-        alert("Please enter a valid security key")
         return;
     }
 
@@ -175,9 +169,8 @@ function login() {
             'Content-Type': 'application/json',
         },
         data: {
-            "loginUsername": loginUsername,
-            "loginPassword": loginPassword,
-            "securityKey": securityKey
+            "loginEmail": loginEmail,
+            "loginPassword": loginPassword
         }
     })
         .then(function (response) {
