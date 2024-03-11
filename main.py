@@ -53,20 +53,19 @@ def check_session():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if "loginUsername" not in request.json or "loginPassword" not in request.json or "securityKey" not in request.json:
+    if "loginEmail" not in request.json or "loginPassword" not in request.json:
         return "ERROR: One or more required payloads missing."
     
-    loginUsername = request.json['loginUsername']
+    loginEmail = request.json['loginEmail']
     loginPassword = request.json['loginPassword']
-    securityKey = request.json['securityKey']
 
-    ref = db.reference('/')
-    data = ref.get()
+    storedEmail = os.environ.get('EMAIL')
+    storedPassword = os.environ.get('PASSWORD')
 
-    if loginUsername == data["User Data"]["User ID"] and loginPassword == data["User Data"]["User Password"] and int(securityKey) == data["User Data"]["User Security Key"]:
+    if loginEmail == storedEmail and loginPassword == storedPassword:
         session['logged_in'] = True
         session['last_interaction'] = datetime.datetime.now(pytz.utc)
-        session['username'] = loginUsername
+        session['email'] = loginEmail
         session['token'] = secrets.token_hex(16)
         return 'SUCCESS. Access Granted.'
     else:
@@ -75,7 +74,7 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('logged_in', None)
-    session.pop('username', None)
+    session.pop('email', None)
     session.pop('token', None)
     ref = db.reference('/')
     data = ref.get()
