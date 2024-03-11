@@ -1,6 +1,6 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for, jsonify
-import datetime, base64, os, secrets, pytz, firebase_admin
-from firebase_admin import credentials, db
+import datetime, base64, os, secrets, pytz, firebase_admin, secrets
+from firebase_admin import credentials, db, auth
 
 app = Flask(__name__)
 
@@ -63,6 +63,9 @@ def login():
     storedPassword = os.environ.get('PASSWORD')
 
     if loginEmail == storedEmail and loginPassword == storedPassword:
+        user = auth.get_user_by_email(loginEmail)
+        auth.set_custom_user_claims(user.uid, {"admin": True})
+
         session['logged_in'] = True
         session['last_interaction'] = datetime.datetime.now(pytz.utc)
         session['email'] = loginEmail
