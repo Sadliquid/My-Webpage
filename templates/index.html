@@ -27,6 +27,71 @@
 
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js"></script>
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    
+        const firebaseConfig = {
+          apiKey: "AIzaSyD-nvNos9LbRfuts0XXdu97bIP1fD2_jJc",
+          authDomain: "my-personal-website-c713e.firebaseapp.com",
+          databaseURL: "https://my-personal-website-c713e-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "my-personal-website-c713e",
+          storageBucket: "my-personal-website-c713e.appspot.com",
+          messagingSenderId: "534193315163",
+          appId: "1:534193315163:web:1dc3f62f9fcc77175dce7e",
+          measurementId: "G-6CXSHP695S"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+    
+        const blogPostsRef = ref(database, 'Blog Posts');
+    
+        onValue(blogPostsRef, (snapshot) => {
+            const blogPostsContainer = document.getElementById('blog-posts');
+            blogPostsContainer.innerHTML = '';
+    
+            let hasValidPosts = false;
+    
+            snapshot.forEach((childSnapshot) => {
+                const post = childSnapshot.val();
+                const postId = childSnapshot.key;
+                
+                if (postId === "placeholder") {
+                    return;
+                }
+                
+                hasValidPosts = true;
+                
+                const postHtml = `
+                    <div class="col-md-6">
+                        <div class="counter bg-white rounded p-5">
+                            <h4>${post.Title}</h4>
+                            <p id="postDescriptionContent">${post.Description}</p>
+                        </div>
+                    </div>`;
+                blogPostsContainer.innerHTML += postHtml;
+            });
+    
+            if (!hasValidPosts) {
+                blogPostsContainer.innerHTML = `
+                    <div id="noBlogPostsYet" class="col-md-12">
+                        <div class="counter bg-white rounded p-5">
+                            <h4>No blog posts yet...</h4>
+                            <p>There are no blog posts at the moment. Please check back later.</p>
+                        </div>
+                    </div>`;
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -197,9 +262,9 @@
             <h1 class="text-center text-blue display-6">My Blog</h1>
             <p></p>
             <div class="bg-light p-5 rounded">
-                <div class="row g-4">
+                <div id="blog-posts" class="row g-4">
                     {% if "placeholder" in data["Blog Posts"] %}
-                    <div class="col-md-12">
+                    <div id="noBlogPostsYet" class="col-md-12">
                         <div class="counter bg-white rounded p-5">
                             <h4>No blog posts yet...</h4>
                             <p>There are no blog posts at the moment. Please check back later.</p>
