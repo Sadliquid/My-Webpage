@@ -59,10 +59,10 @@ def login():
     loginEmail = request.json['loginEmail']
     loginPassword = request.json['loginPassword']
 
-    ref = db.reference('/')
-    data = ref.get()
+    storedEmail = os.environ.get('EMAIL')
+    storedPassword = os.environ.get('PASSWORD')
 
-    if loginEmail == data["User Data"]["User ID"] and loginPassword == data["User Data"]["User Password"]:
+    if loginEmail == storedEmail and loginPassword == storedPassword:
         session['logged_in'] = True
         session['last_interaction'] = datetime.datetime.now(pytz.utc)
         session['email'] = loginEmail
