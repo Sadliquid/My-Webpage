@@ -58,40 +58,67 @@
         onValue(blogPostsRef, (snapshot) => {
             const blogPostsContainer = document.getElementById('blog-posts');
             blogPostsContainer.innerHTML = '';
-    
+
             let hasValidPosts = false;
-    
+
             snapshot.forEach((childSnapshot) => {
                 const post = childSnapshot.val();
                 const postId = childSnapshot.key;
-                
+
                 if (postId === "placeholder") {
                     return;
                 }
-                
+
                 hasValidPosts = true;
-                
-                const postHtml = `
-                    <div class="col-md-6">
-                        <div class="counter bg-white rounded p-5">
-                            <h4>${post.Title}</h4>
-                            <p id="postDescriptionContent">${post.Description}</p>
-                        </div>
-                    </div>`;
-                blogPostsContainer.innerHTML += postHtml;
+
+                const postElement = document.createElement('div');
+                postElement.classList.add('col-md-6', 'blog-post');
+                postElement.innerHTML = `
+                    <div class="counter bg-white rounded p-5">
+                        <h4>${post.Title}</h4>
+                        <p id="postDescriptionContent">${post.Description}</p>
+                    </div>
+                `;
+                blogPostsContainer.appendChild(postElement);
+
+                // Trigger reflow to apply the transition
+                postElement.offsetHeight;
+
+                // Apply the transition by setting opacity to 1
+                postElement.style.opacity = 1;
             });
-    
+
             if (!hasValidPosts) {
-                blogPostsContainer.innerHTML = `
-                    <div id="noBlogPostsYet" class="col-md-12">
-                        <div class="counter bg-white rounded p-5">
-                            <h4>No blog posts yet...</h4>
-                            <p>There are no blog posts at the moment. Please check back later.</p>
-                        </div>
-                    </div>`;
-            }
+            const messageElement = document.createElement('div');
+            messageElement.id = 'noBlogPostsYet';
+            messageElement.classList.add('col-md-12', 'no-posts-message');
+            messageElement.innerHTML = `
+                <div class="counter bg-white rounded p-5">
+                    <h4>No blog posts yet...</h4>
+                    <p>There are no blog posts at the moment. Please check back later.</p>
+                </div>
+            `;
+            blogPostsContainer.appendChild(messageElement);
+
+            // Trigger reflow to apply the transition
+            messageElement.offsetHeight;
+
+            // Apply the transition by setting opacity to 1
+            messageElement.style.opacity = 1;
+        }
         });
     </script>
+    <style>
+        .blog-post {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .no-posts-message {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+    </style>
 </head>
 
 <body>
