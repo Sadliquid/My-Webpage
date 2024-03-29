@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for, jsonify
 import datetime, base64, os, secrets, pytz, firebase_admin, secrets
 from firebase_admin import credentials, db, auth, storage
+from urllib.parse import quote_plus
 
 app = Flask(__name__)
 
@@ -252,7 +253,7 @@ def addAward():
     awardImageData = data['awardImage']
 
     if awardTitle == "" or awardDescription == "":
-        return "UERROR: Award title and description cannot be empty."
+        return "ERROR: Award title and description cannot be empty."
 
     image_data = base64.b64decode(awardImageData)
     filename = str(formatted_time) + ".png"
@@ -261,8 +262,12 @@ def addAward():
     # Upload image to Firebase Storage
     image_blob.upload_from_string(image_data, content_type='image/png')
 
-    # Get the public URL of the uploaded image
-    image_url = image_blob.public_url
+    # Construct the URL manually
+    bucket_name = 'my-personal-website-c713e.appspot.com'  # Replace with your bucket name
+    image_path = filename  # Assuming 'filename' contains the path to the image file
+    image_url = f'https://firebasestorage.googleapis.com/v0/b/{bucket_name}/o/{quote_plus(image_path)}?alt=media'
+
+    print(f"Image URL: {image_url}") # For debugging purposes
 
     newAward = {
         "Title": awardTitle,
@@ -276,10 +281,10 @@ def addAward():
     if "placeholder" in data:
         ref.child(formatted_time).set(newAward)
         ref.child('placeholder').delete()
-        return 'SUCCESS. Award Added.'
+        return 'SUCCESS: Award Added.'
     
     ref.child(formatted_time).set(newAward)
-    return 'SUCCESS. Award Added.'
+    return 'SUCCESS: Award Added.'
 
 @app.route('/deleteAward', methods=['POST'])
 def deleteAward():
