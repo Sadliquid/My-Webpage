@@ -259,15 +259,11 @@ def addAward():
     filename = str(formatted_time) + ".png"
     image_blob = bucket.blob(filename)
 
-    # Upload image to Firebase Storage
     image_blob.upload_from_string(image_data, content_type='image/png')
 
-    # Construct the URL manually
-    bucket_name = 'my-personal-website-c713e.appspot.com'  # Replace with your bucket name
-    image_path = filename  # Assuming 'filename' contains the path to the image file
+    bucket_name = 'my-personal-website-c713e.appspot.com'
+    image_path = filename
     image_url = f'https://firebasestorage.googleapis.com/v0/b/{bucket_name}/o/{quote_plus(image_path)}?alt=media'
-
-    print(f"Image URL: {image_url}") # For debugging purposes
 
     newAward = {
         "Title": awardTitle,

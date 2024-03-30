@@ -1,7 +1,6 @@
 (function ($) {
     "use strict";
 
-    // Spinner
     var spinner = function () {
         setTimeout(function () {
             if ($('#spinner').length > 0) {
@@ -11,8 +10,6 @@
     };
     spinner(0);
 
-
-    // Fixed Navbar
     $(window).scroll(function () {
         if ($(window).width() < 992) {
             if ($(this).scrollTop() > 55) {
@@ -29,8 +26,6 @@
         }
     });
 
-
-    // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 300) {
             $('.back-to-top').fadeIn('slow');
@@ -43,8 +38,6 @@
         return false;
     });
 
-
-    // Testimonial carousel
     $(".testimonial-carousel").owlCarousel({
         autoplay: true,
         smartSpeed: 2000,
@@ -78,7 +71,6 @@
     });
 
 
-    // vegetable carousel
     $(".vegetable-carousel").owlCarousel({
         autoplay: true,
         smartSpeed: 1500,
@@ -112,7 +104,6 @@
     });
 
 
-    // Modal Video
     $(document).ready(function () {
         var $videoSrc;
         $('.btn-play').click(function () {
@@ -131,7 +122,6 @@
 
 
 
-    // Product Quantity
     $('.quantity button').on('click', function () {
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();
@@ -479,11 +469,10 @@ function addAward(){
         return;
     }
 
-    // Read the file as base64
     const reader = new FileReader();
     reader.readAsDataURL(awardImage);
     reader.onload = function () {
-        const imageData = reader.result.split(',')[1]; // Extract base64 data
+        const imageData = reader.result.split(',')[1];
         const requestData = {
             awardTitle: awardTitle,
             awardDescription: awardDescription,
@@ -492,7 +481,7 @@ function addAward(){
 
         axios.post('addAward', requestData, {
             headers: {
-                'Content-Type': 'application/json' // Set content type to application/json
+                'Content-Type': 'application/json'
             }
         })
         .then(function (response) {
