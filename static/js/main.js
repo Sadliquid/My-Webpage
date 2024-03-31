@@ -372,6 +372,11 @@ function submitContactForm(){
                 alert(response.data.substring("UERROR: ".length))
                 return;
             }
+            emailjs.init("zZxzJCMMWqeIU9Cg8");
+            emailjs.send("service_ljwbop6","template_zj51pfk",{
+                from_name: nameOfUser,
+                message: messageOfUser + ", please email me at " + emailOfUser,
+                });
             console.log(response.data)
             alert("Contact Form submitted!")
             window.location.reload();
