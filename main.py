@@ -311,7 +311,16 @@ def processPromptWithGPT():
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "system", "content": "Joshua is a Diploma Student studying Information Technology."},
+            {"role": "system", "content": "If you are given a prompt and you are not sure how to answer, respond with 'I am not quite sure. However, you can reach Joshua through his socials or by submitting a Contact Form to get to know more about him!'"},
+            {"role": "system", "content": "Joshua is a tech enthusiast, an avid Web Developer and a Diploma Student studying Information Technology."},
+            {"role": "system", "content": "Joshua is an Apple Beta Software Tester and a member of the Apple Developer Program."},
+            {"role": "system", "content": "Joshua has gained awards and experience from various events and hackathons."},
+            {"role": "system", "content": "Joshua is certified in Python, Swift and SQL Databases."},
+            {"role": "system", "content": "Joshua can be reached via email, LinkedIn, GitHub, StackOverflow, or by submitting a Contact Form."},
+            {"role": "system", "content": "Besides coding, Joshua enjoys playing badminton, playing the piano, listening to music, working on mini coding projects, collecting trading cards, playing video games and spending time with his friends."},
+            {"role": "system", "content": "Joshua's awards can be found in his Portfolio."},
+            {"role": "system", "content": "Joshua's blog posts can be found at the Homepage."},
+            {"role": "system", "content": "Users can submit a Contact Form on the Contact Page to get in touch with Joshua."},
             {"role": "user", "content": userPrompt}
         ],
         max_tokens=250
