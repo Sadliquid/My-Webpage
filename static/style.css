@@ -696,3 +696,105 @@ html {
 #postDescriptionContent {
     text-align: left;
 }
+
+#chatIcon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    border-radius: 50%;
+    background-color: white;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+#chatIcon:hover {
+    transform: translateY(-5px);
+}
+
+.genAIDiv {
+    margin-top: 20px;
+    border: 2px solid navy;
+    border-radius: 15px;
+    padding: 20px;
+    overflow-x: auto;
+    width: 100%;
+    background-color: white;
+}
+
+#response {
+    margin-top: 10px;
+    white-space: pre-line;
+    font-family: 'Courier New', monospace;
+    width: 95%;
+    color: black;
+    margin-left: 20px;
+    -webkit-tap-highlight-color: rgb(189, 186, 217);
+    -webkit-touch-callout: initial;
+    -webkit-user-select: initial;
+    -moz-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
+}
+
+#prompt {
+    border: 1px solid rgb(149, 149, 149);
+    border-radius: 15px;
+    padding: 10px;
+    width: 80%;
+}
+
+@media only screen and (max-width: 991px) {
+    #prompt {
+        width: 65%;
+    }
+}
+
+#responseNote {
+    margin-top: 10px;
+    color: rgb(149, 149, 149);
+    margin-bottom: -15px;
+    margin-top: 40px;
+    margin-left: -8px;
+    font-style: italic;
+}
+
+#aiImg {
+    float: left;
+    margin-top: -2px;
+    margin-left: -10px;
+    margin-right: 10px;
+    height: 50px;
+    width: 50px;
+}
+
+#submitPromptButton{
+    cursor: pointer;
+    margin-top: -10px;
+    margin-right: -35px;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid navy;
+    background-color: white;
+    transition: transform 0.2s ease-in-out;
+}
+
+#submitPromptButton:hover {
+    transform: translateY(-5px);
+}
+
+.submitPromptButtonDiv {
+    margin-right: 30px;
+    margin-top: -35px;
+    display: flex;
+    justify-content: right;
+}
+
+#submitArrow {
+    margin-left: 25px;
+    color: navy;
+}

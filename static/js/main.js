@@ -538,3 +538,73 @@ function deleteAward(awardID){
             console.error('Error deleting award:', error);
         });
 }
+
+function handleTypewriterEffect(resultDiv, generatedText, maxLength) {
+    console.log(generatedText)
+    const characters = generatedText.split('');
+    let i = 0;
+
+    const intervalId = setInterval(() => {
+        resultDiv.innerHTML += characters[i];
+        i++;
+
+        if (i === characters.length || i === maxLength) {
+            clearInterval(intervalId);
+        }
+    }, 5); 
+}
+
+function submitPrompt() {
+    document.getElementById('response').innerHTML = "Hold tight! ChatNinja is thinking..."
+    const prompt = document.getElementById("prompt");
+
+    if (prompt.value !== "") {
+        const resultDiv = document.getElementById('response');
+        
+        axios({
+            method: 'post',
+            url: `processPromptWithGPT`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "prompt": prompt.value
+            }
+        })
+        .then(function (response) {
+            if (response.status == 200) {
+                if (typeof response.data != "string") {
+                    const maxLength = 1800;
+                    resultDiv.innerHTML = '';
+                    handleTypewriterEffect(resultDiv, response.data.generated_text, maxLength);
+                    return;
+                } else {
+                    if (response.data.startsWith("ERROR")) {
+                        resultDiv.innerText = "An error occurred. Please try again later."
+                        console.log("Error occured while trying to use ChatNinja: " + response.data)
+                        return
+                    } else if (response.data.startsWith("UERROR")) {
+                        resultDiv.innerText = response.data.substring("UERROR: ".length)
+                        console.log("User error occured while trying to use ChatNinja: " + response.data)
+                        return
+                    } else {
+                        resultDiv.innerText = "An error occurred. Please try again later."
+                        console.log("Unknown response received from server while trying to use ChatNinja: " + response.data)
+                        return
+                    }
+                }
+            } else {
+                resultDiv.innerText = "An error occurred. Please try again later."
+                console.log("An unfiltered error has occured while communicating with the server: " + response.data)
+                return
+            }
+        })
+        .catch(function (error) {
+            console.error('Error generating text completion:', error);
+        });
+    } else {
+        document.getElementById('response').innerHTML = ""
+        alert("Please enter a valid prompt.");
+        return;
+    }
+}

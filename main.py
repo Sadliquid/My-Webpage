@@ -1,5 +1,5 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for, jsonify
-import datetime, base64, os, secrets, pytz, firebase_admin, secrets
+import datetime, base64, os, secrets, pytz, firebase_admin, secrets, openai
 from firebase_admin import credentials, db, auth, storage
 from urllib.parse import quote_plus
 
@@ -297,6 +297,27 @@ def deleteAward():
         ref.child('placeholder').set("") # Placeholder data to prevent empty database
 
     return 'SUCCESS. Award Deleted.'
+
+@app.route('/processPromptWithGPT', methods=['POST'])
+def processPromptWithGPT():
+    if "prompt" not in request.json:
+        return "ERROR: One or more required payload parameters not provided."
+    
+    userPrompt = request.json['prompt']
+
+    openai.api_key = os.environ.get('CHATNINJA_SECRET_KEY')
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": userPrompt}
+        ],
+        max_tokens=250
+    )
+
+    generated_text = response.choices[0].message['content'].strip()
+    return jsonify({'generated_text': generated_text})
 
 if __name__ == '__main__':
     app.run(debug=True)

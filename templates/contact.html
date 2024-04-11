@@ -33,6 +33,9 @@
 
     <!-- EmailJS JsDelivr CDN -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.0/dist/email.min.js"></script>
+
+    <!-- Axios JsDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -118,6 +121,32 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img src="static/Images/ai.png" id="chatIcon" type="button" data-bs-toggle="modal" data-bs-target="#gptModal">
+
+    <div class="modal fade" id="gptModal" tabindex="-1" aria-labelledby="gptModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="gptModalLabel">Have any questions? Ask ChatNinja!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="genAIDiv">
+                        <img src="/static/Images/ai.png" id="aiImg">
+                        <input type="text" name="prompt" id="prompt" placeholder="How may I help you?" size="50">
+                        <div class="submitPromptButtonDiv">
+                            <button type="button" class="btn btn-outline-primary" id="submitPromptButton" onclick="submitPrompt()">Submit!</button>
+                        </div>
+                        <div id="response"></div>
+                        <p id="responseNote">Please note that ChatNinja allows for a max output length of 1000 characters.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
