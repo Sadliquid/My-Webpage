@@ -308,7 +308,7 @@ def processPromptWithGPT():
     openai.api_key = os.environ.get('CHATNINJA_SECRET_KEY')
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-0125",
         messages=[
             {"role": "system", "content": "You are a helpful assistant. Your name is ChatNinja."},
             {"role": "system", "content": "If you are given a prompt and you are not sure how to answer, respond with 'I am not quite sure. However, you can reach Joshua through his socials or by submitting a Contact Form to get to know more about him!'"},
