@@ -311,6 +311,7 @@ def processPromptWithGPT():
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "Joshua is a Diploma Student studying Information Technology."},
             {"role": "user", "content": userPrompt}
         ],
         max_tokens=250
