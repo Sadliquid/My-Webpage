@@ -746,9 +746,10 @@ html {
     border-radius: 15px;
     padding: 10px;
     width: 80%;
+    margin-right: 10px;
 }
 
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 990px) {
     #prompt {
         width: 65%;
     }
@@ -792,6 +793,61 @@ html {
     margin-top: -35px;
     display: flex;
     justify-content: right;
+}
+
+@media only screen and (max-width: 470px) {
+    #submitPromptButton {
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        width: 100%;
+    }
+    #prompt {
+        width: 78%;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #prompt {
+        width: 76%;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    #prompt {
+        width: 74%;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    #prompt {
+        width: 72%;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+    #prompt {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    #prompt {
+        width: 68%;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    #prompt {
+        width: 66%;
+    }
+}
+
+@media only screen and (max-width: 330px) {
+    #prompt {
+        width: 64%;
+    }
 }
 
 #submitArrow {
