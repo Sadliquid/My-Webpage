@@ -810,43 +810,49 @@ html {
 
 @media only screen and (max-width: 450px) {
     #prompt {
+        width: 77%;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    #prompt {
         width: 76%;
     }
 }
 
 @media only screen and (max-width: 430px) {
     #prompt {
-        width: 74%;
+        width: 75%;
     }
 }
 
 @media only screen and (max-width: 410px) {
     #prompt {
-        width: 72%;
+        width: 74%;
     }
 }
 
-@media only screen and (max-width: 390px) {
+@media only screen and (max-width: 400px) {
     #prompt {
-        width: 70%;
+        width: 73%;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    #prompt {
+        width: 72%;
     }
 }
 
 @media only screen and (max-width: 370px) {
     #prompt {
-        width: 68%;
+        width: 71%;
     }
 }
 
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 360px) {
     #prompt {
-        width: 66%;
-    }
-}
-
-@media only screen and (max-width: 330px) {
-    #prompt {
-        width: 64%;
+        width: 70%;
     }
 }
 
