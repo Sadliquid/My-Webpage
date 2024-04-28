@@ -1,5 +1,5 @@
 ## Joshua's Portfolio
-This is my personal webpage where I showcase an introduction of myself, a blog, my awards, testimonials and socials. Head over to <a href="joshua-long-yx.tech">my webpage</a> to know more about me!
+This is my personal webpage where I showcase an introduction of myself, a blog, my awards, testimonials and socials. Head over to <a href="joshua-long.me">my webpage</a> to know more about me!
 
 ## Frameworks and tools
 -HTML (Hyper-Text Markup Language)
