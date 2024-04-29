@@ -27,12 +27,14 @@
 
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- LDRS Spinner CDN -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/waveform.js"></script>
 </head>
 
 <body>
-    <div id="spinner"
-        class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" role="status"></div>
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <l-waveform size="35" stroke="3.5" speed="1" color="navy"></l-waveform>
     </div>
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-blue display-6">Access Denied</h1>
