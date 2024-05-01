@@ -331,6 +331,128 @@ function submitPost(){
         });
 }
 
+var ProjectIDtoEdit = null
+function setProjectIDtoEdit(ProjectID){
+    ProjectIDtoEdit = ProjectID
+}
+
+function submitProjectEdits(index){
+    const editedProjectTitle = document.getElementById('editProjectTitle' + index).value;
+    const editedProjectDescription = document.getElementById('editProjectDescription' + index).value;
+
+    if (editedProjectTitle == ""){
+        alert("Title cannot be empty!");
+        return;
+    }
+    if (editedProjectDescription == ""){
+        alert("Description cannot be empty!");
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `editProject`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "editedProjectTitle": editedProjectTitle,
+            "editedProjectDescription": editedProjectDescription,
+            "editProjectID": ProjectIDtoEdit
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while editing project. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error editing project:', error);
+        });
+}
+
+function deleteProject(projectIDtoDelete){
+    axios({
+        method: 'post',
+        url: `deleteProject`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "projectIDtoDelete": projectIDtoDelete
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while deleting project. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error deleting project:', error);
+        });
+}
+
+function submitProject(){
+    const projectTitle = document.getElementById("projectTitle").value;
+    const projectDescription = document.getElementById("projectDescription").value;
+
+    if (projectTitle == ""){
+        alert("Title cannot be empty!");
+        return;
+    }
+    if (projectDescription == ""){
+        alert("Description cannot be empty!");
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `submitProject`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "projectTitle": projectTitle,
+            "projectDescription": projectDescription
+        }
+    })
+        .then(function (response) {
+            if (response.data.startsWith("ERROR:")) {
+                console.log(response.data)
+                alert("An error occured while uploading project. Please try again.")
+                return;
+            }
+            else if (response.data.startsWith("UERROR:")) {
+                console.log(response.data)
+                alert(response.data.substring("UERROR: ".length))
+                return;
+            }
+            console.log(response.data)
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.error('Error uploading project:', error);
+        });
+}
+
 function submitContactForm(){
     const nameOfUser = document.getElementById("nameOfUser").value
     const emailOfUser = document.getElementById("emailOfUser").value

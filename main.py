@@ -2,6 +2,9 @@ from flask import Flask, render_template, json, request, session, redirect, url_
 import datetime, base64, os, secrets, pytz, firebase_admin, secrets, openai
 from firebase_admin import credentials, db, auth, storage
 from urllib.parse import quote_plus
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -30,6 +33,12 @@ def portfolio():
 @app.route('/testimonial')
 def testimonial():
     return render_template('testimonial.html')
+
+@app.route('/projects')
+def projects():
+    ref = db.reference('/')
+    data = ref.get()
+    return render_template('projects.html', data=data)
 
 @app.route('/contact')
 def contact():
@@ -162,6 +171,73 @@ def submitPost():
 
     ref.child(formatted_time).set(newPost)
     return 'SUCCESS. Post Submitted.'
+
+@app.route('/editProject', methods=['POST'])
+def editProject():
+    if "editedProjectTitle" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "editedProjectDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "editProjectID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    editedProjectTitle = request.json['editedProjectTitle']
+    editedProjectDescription = request.json['editedProjectDescription']
+    editProjectID = request.json['editProjectID']
+
+    ref = db.reference('Projects')
+    data = {
+        "Title": editedProjectTitle,
+        "Description": editedProjectDescription
+    }
+
+    ref.child(editProjectID).set(data)
+
+    return 'SUCCESS. Project Edited.'
+
+@app.route('/deleteProject', methods=['POST'])
+def deleteProject():
+    if "projectIDtoDelete" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    projectIDtoDelete = request.json['projectIDtoDelete']
+
+    ref = db.reference('Projects')
+    ref.child(projectIDtoDelete).delete()
+
+    data = ref.get()
+    if data is None or len(data) == 0:
+        ref.child('placeholder').set("")
+    return 'SUCCESS. Project Deleted.'
+
+@app.route('/submitProject', methods=['POST'])
+def submitProject():
+    if "projectTitle" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "projectDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    projectTitle = request.json['projectTitle']
+    projectDescription = request.json['projectDescription']
+
+    ref = db.reference('Projects')
+    data = ref.get()
+
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    newProject = {
+        "Title": projectTitle,
+        "Description": projectDescription,
+    }
+
+    if "placeholder" in data:
+        ref.child(formatted_time).set(newProject)
+        ref.child('placeholder').delete()
+        return 'SUCCESS. Project uploaded.'
+
+    ref.child(formatted_time).set(newProject)
+    return 'SUCCESS. Project uploaded.'
 
 @app.route('/submitContactForm', methods=['POST'])
 def submitContactForm():
