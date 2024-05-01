@@ -396,6 +396,8 @@ def processPromptWithGPT():
             {"role": "system", "content": "Besides coding, Joshua enjoys playing badminton, playing the piano, listening to music, working on mini coding projects, collecting trading cards, playing video games and spending time with his friends."},
             {"role": "system", "content": "Joshua's awards can be found in his Portfolio."},
             {"role": "system", "content": "Joshua's blog posts can be found at the Homepage."},
+            {"role": "system", "content": "Joshua's projects can be found at the Projects Page."},
+            {"role": "system", "content": "Joshua developed ChatNinja."},
             {"role": "system", "content": "Users can submit a Contact Form on the Contact Page to get in touch with Joshua."},
             {"role": "user", "content": userPrompt}
         ],
