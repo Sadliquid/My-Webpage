@@ -550,7 +550,8 @@ html {
 #errorLoginButton,
 #gotoAdminPanelButton,
 #logoutButton,
-#createPostButton {
+#createPostButton, 
+#createProjectButton {
     border-radius: 10px;
     background-color: navy;
     color: white;
@@ -565,7 +566,8 @@ html {
 #errorLoginButton:hover,
 #gotoAdminPanelButton:hover,
 #logoutButton:hover,
-#createPostButton:hover {
+#createPostButton:hover,
+#createProjectButton:hover {
     background-color: whitesmoke;
     color: navy;
     transition: 0.2s ease-in-out;
@@ -593,7 +595,7 @@ html {
     cursor: pointer;
 }
 
-#createPostButtonDiv {
+#createPostButtonDiv, #createProjectButtonDiv {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
