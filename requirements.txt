@@ -4,3 +4,4 @@ Werkzeug==2.0.2
 pytz==2024.1
 firebase_admin==6.4.0
 openai==0.28.0
+python-dotenv==1.0.1

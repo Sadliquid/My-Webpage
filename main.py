@@ -2,6 +2,9 @@ from flask import Flask, render_template, json, request, session, redirect, url_
 import datetime, base64, os, secrets, pytz, firebase_admin, secrets, openai
 from firebase_admin import credentials, db, auth, storage
 from urllib.parse import quote_plus
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -30,6 +33,12 @@ def portfolio():
 @app.route('/testimonial')
 def testimonial():
     return render_template('testimonial.html')
+
+@app.route('/projects')
+def projects():
+    ref = db.reference('/')
+    data = ref.get()
+    return render_template('projects.html', data=data)
 
 @app.route('/contact')
 def contact():

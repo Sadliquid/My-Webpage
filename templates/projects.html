@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Joshua's Portfolio</title>
+    <title>Joshua's Website</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Google Web Fonts -->
@@ -43,7 +43,8 @@
         <div class="container topbar bg-primary d-none d-lg-block">
             <div class="d-flex justify-content-between">
                 <div class="top-info ps-2">
-                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a
+                            href="mailto:joshua-long-me@protonmail.com"
                             class="text-white">joshua-long-me@protonmail.com</a></small>
                 </div>
                 <div class="top-link pe-2">
@@ -67,9 +68,9 @@
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
                         <a href="/" class="nav-item nav-link">Home</a>
-                        <a href="/portfolio" class="nav-item nav-link active">Portfolio</a>
+                        <a href="/portfolio" class="nav-item nav-link">Portfolio</a>
                         <a href="/testimonial" class="nav-item nav-link">Testimonial</a>
-                        <a href="/projects" class="nav-item nav-link">Projects</a>
+                        <a href="/projects" class="nav-item nav-link active">Projects</a>
                         <a href="/contact" class="nav-item nav-link">Contact</a>
                     </div>
                 </div>
@@ -78,94 +79,27 @@
     </div>
 
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-blue display-6">My Portfolio</h1>
-    </div>
-
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="bg-light p-5 rounded">
-                <h3 class="text-center text-blue display-6" id="awardsHeader">A little bit about myself</h3>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="rounded p-5"
-                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                            <div>
-                                <img src="static/Images/profileIcon.JPG" style="max-width: 100%;">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rounded p-5"
-                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                            <div>
-                                <h4>Hey, I'm Joshua - a tech enthusiast.</h4>
-                                <p></p>
-                                <p>I'm a student developer taking a Diploma in Information Technology. I am also an
-                                    Apple Beta Software Tester and have been testing iOS 17 since its beta release!</p>
-                                <p>I took multiple courses to upskill myself, and am certified in Python, Swift and SQL.
-                                    I enjoy participating in hackathons too!</p>
-                                <p>I enjoy listening to music, watching movies, gaming, playing the piano, working out,
-                                    playing badminton and working on small projects.</p>
-                                <p>Want to know more? Check out my socials below!</p>
-                                <div class="d-flex justify-content-center" id="socialsDiv">
-                                    <a href="https://www.linkedin.com/in/joshua-long-1a21ba257/"><i class="fab fa-linkedin fa-2x text-primary me-4" id="socialsIcon"></i></a>
-                                    <a href="https://github.com/Sadliquid"><i class="fab fa-github fa-2x text-primary me-4" id="socialsIcon"></i></a>
-                                    <a href="https://www.instagram.com/joshua_still_thinking"><i class="fab fa-instagram fa-2x text-primary me-4" id="socialsIcon"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1 class="text-center text-blue display-6">Projects I've worked on</h1>
     </div>
     <div class="container-fluid py-5">
         <div class="container">
+            <p></p>
             <div class="bg-light p-5 rounded">
-                <h3 class="text-center text-blue display-6" id="awardsHeader">Awards:</h3>
-                <div class="row g-4">
-                    {% if "placeholder" in data["Awards"] %}
-                    <div class="col-md-12">
+                <div id="blog-posts" class="row g-4">
+                    {% if "placeholder" in data["Projects"] %}
+                    <div id="noBlogPostsYet" class="col-md-12">
                         <div class="counter bg-white rounded p-5">
-                            <h4>No awards yet...</h4>
-                            <p>There are no awards at the moment. Please check back later.</p>
+                            <h4>No projects displayed yet...</h4>
+                            <p>There are no projects displayed at the moment. Please check back later.</p>
                         </div>
                     </div>
                     {% endif %}
-                    {% if "placeholder" not in data["Awards"] %}
-                    {% for timestamp, award in data["Awards"].items() %}
+                    {% if "placeholder" not in data["Projects"] %}
+                    {% for timestamp, project in data["Projects"].items() %}
                     <div class="col-md-6">
-                        <div class="counter bg-white rounded p-5"
-                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-                            <div>
-                                <h4>{{ award.Title }}</h4>
-                                <p>{{ award.Description }}</p>
-                            </div>
-                            <div style="text-align: center;">
-                                <button class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#certificateModal{{ loop.index }}" id="viewCertificateButton">View
-                                    Certificate</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="certificateModal{{ loop.index }}" tabindex="-1"
-                        aria-labelledby="certificateModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editAwardModalLabel{{ loop.index }}">View Certificate
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="{{ award.Image }}" id="certificateImg">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go
-                                        back</button>
-                                </div>
-                            </div>
+                        <div class="counter bg-white rounded p-5">
+                            <h4>{{ project.Title }}</h4>
+                            <p id="postDescriptionContent">{{ project.Description }}</p>
                         </div>
                     </div>
                     {% if loop.index % 2 == 0 %}
