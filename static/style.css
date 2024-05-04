@@ -751,9 +751,9 @@ html {
     margin-right: 10px;
 }
 
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 991px) {
     #prompt {
-        width: 65%;
+        width: 80%;
     }
 }
 
@@ -778,7 +778,7 @@ html {
 #submitPromptButton{
     cursor: pointer;
     margin-top: -10px;
-    margin-right: -35px;
+    margin-right: -30px;
     height: 45px;
     border-radius: 10px;
     border: 1px solid navy;
@@ -800,43 +800,11 @@ html {
 @media only screen and (max-width: 470px) {
     #submitPromptButton {
         margin-top: 50px;
-        margin-left: auto;
-        margin-right: auto;
         justify-content: center;
+        width: 110%;
+    }
+    #prompt {
         width: 100%;
-    }
-    #prompt {
-        width: 77%;
-    }
-}
-
-@media only screen and (max-width: 450px) {
-    #prompt {
-        width: 75%;
-    }
-}
-
-@media only screen and (max-width: 430px) {
-    #prompt {
-        width: 74%;
-    }
-}
-
-@media only screen and (max-width: 410px) {
-    #prompt {
-        width: 73%;
-    }
-}
-
-@media only screen and (max-width: 370px) {
-    #prompt {
-        width: 72%;
-    }
-}
-
-@media only screen and (max-width: 360px) {
-    #prompt {
-        width: 70%;
     }
 }
 
