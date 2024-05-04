@@ -812,12 +812,6 @@ html {
 
 @media only screen and (max-width: 450px) {
     #prompt {
-        width: 77%;
-    }
-}
-
-@media only screen and (max-width: 440px) {
-    #prompt {
         width: 75%;
     }
 }
@@ -834,15 +828,9 @@ html {
     }
 }
 
-@media only screen and (max-width: 400px) {
-    #prompt {
-        width: 72%;
-    }
-}
-
 @media only screen and (max-width: 370px) {
     #prompt {
-        width: 71%;
+        width: 72%;
     }
 }
 
