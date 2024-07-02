@@ -47,14 +47,12 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        var firebaseConfig = null;
-
         axios({
             method: 'get',
             url: '/fetchConfig',
         }).then((response) => {
             const config = response.data
-            firebaseConfig = {
+            const firebaseConfig = {
                 apiKey: config.API_KEY,
                 authDomain: config.AUTH_DOMAIN,
                 databaseURL: config.DATABASE_URL,
@@ -64,63 +62,63 @@
                 appId: config.APP_ID,
                 measurementId: config.MEASUREMENT_ID
             };
-        }).catch((error) => {
-            console.error(error);
-        });
 
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const database = getDatabase(app);
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const database = getDatabase(app);
 
-        const blogPostsRef = ref(database, 'Blog Posts');
+            const blogPostsRef = ref(database, 'Blog Posts');
 
-        onValue(blogPostsRef, (snapshot) => {
-            const blogPostsContainer = document.getElementById('blog-posts');
-            blogPostsContainer.innerHTML = '';
+            onValue(blogPostsRef, (snapshot) => {
+                const blogPostsContainer = document.getElementById('blog-posts');
+                blogPostsContainer.innerHTML = '';
 
-            let hasValidPosts = false;
+                let hasValidPosts = false;
 
-            snapshot.forEach((childSnapshot) => {
-                const post = childSnapshot.val();
-                const postId = childSnapshot.key;
+                snapshot.forEach((childSnapshot) => {
+                    const post = childSnapshot.val();
+                    const postId = childSnapshot.key;
 
-                if (postId === "placeholder") {
-                    return;
-                }
+                    if (postId === "placeholder") {
+                        return;
+                    }
 
-                hasValidPosts = true;
+                    hasValidPosts = true;
 
-                const postElement = document.createElement('div');
-                postElement.classList.add('col-md-6', 'blog-post');
-                postElement.innerHTML = `
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('col-md-6', 'blog-post');
+                    postElement.innerHTML = `
+                        <div class="counter bg-white rounded p-5">
+                            <h4>${post.Title}</h4>
+                            <p id="postDescriptionContent">${post.Description}</p>
+                        </div>
+                    `;
+                    blogPostsContainer.appendChild(postElement);
+
+                    postElement.offsetHeight;
+
+                    postElement.style.opacity = 1;
+                });
+
+                if (!hasValidPosts) {
+                    const messageElement = document.createElement('div');
+                    messageElement.id = 'noBlogPostsYet';
+                    messageElement.classList.add('col-md-12', 'no-posts-message');
+                    messageElement.innerHTML = `
                     <div class="counter bg-white rounded p-5">
-                        <h4>${post.Title}</h4>
-                        <p id="postDescriptionContent">${post.Description}</p>
+                        <h4>No blog posts yet...</h4>
+                        <p>There are no blog posts at the moment. Please check back later.</p>
                     </div>
                 `;
-                blogPostsContainer.appendChild(postElement);
+                    blogPostsContainer.appendChild(messageElement);
 
-                postElement.offsetHeight;
+                    messageElement.offsetHeight;
 
-                postElement.style.opacity = 1;
+                    messageElement.style.opacity = 1;
+                }
             });
-
-            if (!hasValidPosts) {
-                const messageElement = document.createElement('div');
-                messageElement.id = 'noBlogPostsYet';
-                messageElement.classList.add('col-md-12', 'no-posts-message');
-                messageElement.innerHTML = `
-                <div class="counter bg-white rounded p-5">
-                    <h4>No blog posts yet...</h4>
-                    <p>There are no blog posts at the moment. Please check back later.</p>
-                </div>
-            `;
-                blogPostsContainer.appendChild(messageElement);
-
-                messageElement.offsetHeight;
-
-                messageElement.style.opacity = 1;
-            }
+        }).catch((error) => {
+            console.error(error);
         });
     </script>
     <style>
