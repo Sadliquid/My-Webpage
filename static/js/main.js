@@ -138,30 +138,45 @@
 
 })(jQuery);
 
-function login() {
-    const loginEmail = document.getElementById("loginEmail").value;
-    const loginPassword = document.getElementById("loginPassword").value;
+document.addEventListener('DOMContentLoaded', () => {
+    const loginButton = document.getElementById('loginButton');
+    const emailInput = document.getElementById('loginEmail');
+    const passwordInput = document.getElementById('loginPassword');
 
-    if (loginEmail == "") {
-        alert("Please enter a valid email");
-        return;
-    }
-    if (loginPassword == "") {
-        alert("Please enter a valid password");
-        return;
-    }
+    emailInput.addEventListener('keydown', handleEnterPress);
+    passwordInput.addEventListener('keydown', handleEnterPress);
 
-    axios({
-        method: 'post',
-        url: `login`,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: {
-            "loginEmail": loginEmail,
-            "loginPassword": loginPassword
+    function handleEnterPress(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            loginButton.click();
         }
-    })
+    }
+
+    function login() {
+        const loginEmail = document.getElementById("loginEmail").value;
+        const loginPassword = document.getElementById("loginPassword").value;
+    
+        if (loginEmail == "") {
+            alert("Please enter a valid email");
+            return;
+        }
+        if (loginPassword == "") {
+            alert("Please enter a valid password");
+            return;
+        }
+    
+        axios({
+            method: 'post',
+            url: `login`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {
+                "loginEmail": loginEmail,
+                "loginPassword": loginPassword
+            }
+        })
         .then(function (response) {
             if (response.data.startsWith("ERROR:")) {
                 console.log(response.data)
@@ -182,7 +197,9 @@ function login() {
         .catch(function (error) {
             console.error('Error logging in:', error);
         });
-}
+    }
+    loginButton.addEventListener('click', login);
+});
 
 function logout(){
     axios({
