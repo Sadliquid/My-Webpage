@@ -82,7 +82,7 @@ def fetchConfig():
         "APP_ID": os.environ.get('APP_ID'),
         "MEASUREMENT_ID": os.environ.get('MEASUREMENT_ID')
     }
-    return jsonify(config)
+    return config
 
 @app.route('/login', methods=['POST'])
 def login():
