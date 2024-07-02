@@ -47,16 +47,17 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyD-nvNos9LbRfuts0XXdu97bIP1fD2_jJc",
-            authDomain: "my-personal-website-c713e.firebaseapp.com",
-            databaseURL: "https://my-personal-website-c713e-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "my-personal-website-c713e",
-            storageBucket: "my-personal-website-c713e.appspot.com",
-            messagingSenderId: "534193315163",
-            appId: "1:534193315163:web:1dc3f62f9fcc77175dce7e",
-            measurementId: "G-6CXSHP695S"
-        };
+        var firebaseConfig = null;
+
+        axios({
+            method: 'get',
+            url: '/fetchConfig',
+        }).then((response) => {
+            firebaseConfig = response.data;
+            console.log(firebaseConfig);
+        }).catch((error) => {
+            console.error(error);
+        });
 
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);

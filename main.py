@@ -68,6 +68,21 @@ def check_session():
         if (current_time - last_interaction).total_seconds() > 30 * 60:
             session.clear()
             return render_template('error.html')
+        
+
+@app.route("/fetchConfig", methods=['GET'])
+def fetchConfig():
+    config = {
+        "API_KEY": os.environ.get('API_KEY'),
+        "AUTH_DOMAIN": os.environ.get('AUTH_DOMAIN'),
+        "DATABASE_URL": os.environ.get('DATABASE_URL'),
+        "PROJECT_ID": os.environ.get('PROJECT_ID'),
+        "STORAGE_BUCKET": os.environ.get('STORAGE_BUCKET'),
+        "MESSAGING_SENDER_ID": os.environ.get('MESSAGING_SENDER_ID'),
+        "APP_ID": os.environ.get('APP_ID'),
+        "MEASUREMENT_ID": os.environ.get('MEASUREMENT_ID')
+    }
+    return jsonify(config)
 
 @app.route('/login', methods=['POST'])
 def login():
