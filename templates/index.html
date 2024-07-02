@@ -53,8 +53,18 @@
             method: 'get',
             url: '/fetchConfig',
         }).then((response) => {
-            firebaseConfig = response.data;
-            console.log(firebaseConfig);
+            const config = response.data
+            console.log("Config: " + config);
+            firebaseConfig = {
+                apiKey: config.apiKey,
+                authDomain: config.authDomain,
+                databaseURL: config.databaseURL,
+                projectId: config.projectId,
+                storageBucket: config.storageBucket,
+                messagingSenderId: config.messagingSenderId,
+                appId: config.appId,
+                measurementId: config.measurementId
+            };
         }).catch((error) => {
             console.error(error);
         });
