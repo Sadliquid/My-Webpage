@@ -3,6 +3,19 @@ html {
     scroll-behavior: smooth;
 }
 
+.nav-link.active {
+    color: navy !important;
+}
+
+.nav-link:hover {
+    color: grey !important;
+}
+
+#navText:hover {
+    color: navy !important;
+    transition: 0.3s ease-in-out;
+}
+
 #spinner {
     opacity: 0;
     visibility: hidden;

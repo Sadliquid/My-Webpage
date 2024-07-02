@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Joshua's Website</title>
+    <title>My Skills</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Google Web Fonts -->
@@ -30,6 +30,12 @@
 
     <!-- Favicon Icon -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Images/favicon.ico') }}">
+
+    <!-- Axios JsDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- EmailJS JsDelivr CDN -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.0/dist/email.min.js"></script>
 
     <!-- Axios JsDelivr CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -74,50 +80,18 @@
                         <a href="/" class="nav-item nav-link">Home</a>
                         <a href="/portfolio" class="nav-item nav-link">Portfolio</a>
                         <a href="/testimonial" class="nav-item nav-link">Testimonial</a>
-                        <a href="/skills" class="nav-item nav-link">Skills</a>
-                        <a href="/projects" class="nav-item nav-link active">Projects</a>
+                        <a href="/skills" class="nav-item nav-link active">Skills</a>
+                        <a href="/projects" class="nav-item nav-link">Projects</a>
                         <a href="/contact" class="nav-item nav-link">Contact</a>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
-
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-blue display-6">Projects I've worked on</h1>
-    </div>
-    <div class="container-fluid py-5">
-        <div class="container">
-            <p></p>
-            <div class="bg-light p-5 rounded">
-                <div id="blog-posts" class="row g-4">
-                    {% if "placeholder" in data["Projects"] %}
-                    <div id="noBlogPostsYet" class="col-md-12">
-                        <div class="counter bg-white rounded p-5">
-                            <h4>No projects displayed yet...</h4>
-                            <p>There are no projects displayed at the moment. Please check back later.</p>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% if "placeholder" not in data["Projects"] %}
-                    {% for timestamp, project in data["Projects"].items() %}
-                    <div class="col-md-6">
-                        <div class="counter bg-white rounded p-5">
-                            <h4>{{ project.Title }}</h4>
-                            <p id="postDescriptionContent">{{ project.Description }}</p>
-                        </div>
-                    </div>
-                    {% if loop.index % 2 == 0 %}
-                    <div class="w-100"></div>
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        <h1 class="text-center text-blue display-6">My Skills</h1>
     </div>
     <img src="static/Images/ai.png" id="chatIcon" type="button" data-bs-toggle="modal" data-bs-target="#gptModal">
-
     <div class="modal fade" id="gptModal" tabindex="-1" aria-labelledby="gptModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

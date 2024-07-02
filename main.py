@@ -34,6 +34,10 @@ def portfolio():
 def testimonial():
     return render_template('testimonial.html')
 
+@app.route("/skills")
+def skills():
+    return render_template('skills.html')
+
 @app.route('/projects')
 def projects():
     ref = db.reference('/')
