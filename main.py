@@ -36,7 +36,9 @@ def testimonial():
 
 @app.route("/skills")
 def skills():
-    return render_template('skills.html')
+    ref = db.reference('/')
+    data = ref.get()
+    return render_template('skills.html', data=data)
 
 @app.route('/projects')
 def projects():
@@ -413,6 +415,73 @@ def processPromptWithGPT():
         return jsonify({'generated_text': generated_text})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+@app.route("/editSkill", methods=['POST'])
+def editSkill():
+    if "editedSkillName" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "editedSkillDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "editSkillID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    editedSkillName = request.json['editedSkillName']
+    editedSkillDescription = request.json['editedSkillDescription']
+    editSkillID = request.json['editSkillID']
+
+    ref = db.reference('Skills')
+    data = {
+        "Name": editedSkillName,
+        "Description": editedSkillDescription
+    }
+
+    ref.child(editSkillID).set(data)
+
+    return 'SUCCESS. Skill Edited.'
+
+@app.route('/deleteSkill', methods=['POST'])
+def deleteSkill():
+    if "skillID" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    skillID = request.json['skillID']
+
+    ref = db.reference('Skills')
+    ref.child(skillID).delete()
+
+    data = ref.get()
+    if data is None or len(data) == 0:
+        ref.child('placeholder').set("")
+    return 'SUCCESS. Skill Deleted.'
+
+@app.route('/addSkill', methods=['POST'])
+def addSkill():
+    if "skillName" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    if "skillDescription" not in request.json:
+        return "ERROR: One or more required payloads missing."
+    
+    skillName = request.json['skillName']
+    skillDescription = request.json['skillDescription']
+
+    ref = db.reference('Skills')
+    data = ref.get()
+
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    newSkill = {
+        "Name": skillName,
+        "Description": skillDescription,
+    }
+
+    if "placeholder" in data:
+        ref.child(formatted_time).set(newSkill)
+        ref.child('placeholder').delete()
+        return 'SUCCESS. Skill Added.'
+
+    ref.child(formatted_time).set(newSkill)
+    return 'SUCCESS. Skill Added.'
 
 if __name__ == '__main__':
     app.run(debug=True)

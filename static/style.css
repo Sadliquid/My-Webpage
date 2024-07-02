@@ -662,7 +662,7 @@ html {
     max-width: 100%;
 }
 
-#addAwardButton {
+#addAwardButton, #addSkillButton {
     background-color: navy;
     color: white;
     padding-left: 20px;
@@ -673,14 +673,14 @@ html {
     transition: 0.2s ease-in-out;
 }
 
-#addAwardButton:hover {
+#addAwardButton:hover, #addSkillButton:hover {
     background-color: white;
     color: navy;
     border: 2px solid navy;
     transition: 0.2s ease-in-out;
 }
 
-#addAwardButtonDiv {
+#addAwardButtonDiv, #addSkillButtonDiv {
     display: flex;
     justify-content: center;
     margin-top: -20px;

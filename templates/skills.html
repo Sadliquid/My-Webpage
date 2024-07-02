@@ -50,30 +50,30 @@
         }
 
         #accordionButton::after {
-            display: none; /* Hide the default arrow */
+            display: none;
         }
 
         #accordionButton::before {
-            content: "\f078"; /* FontAwesome down arrow */
+            content: "\f078";
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
-            color: grey; /* Set icon color */
+            color: grey;
             position: absolute;
-            right: 1rem; /* Adjust positioning */
+            right: 1rem;
             top: 50%;
             transform: translateY(-50%);
         }
 
         #accordionButton:not(.collapsed)::before {
-            content: "\f077"; /* FontAwesome up arrow */
-            color: white; /* Arrow color when the button is not collapsed */
+            content: "\f077";
+            color: white;
         }
 
         #accordionButton {
             position: relative;
             background-color: transparent;
             color: grey;
-            padding-right: 2.5rem; /* Adjust to fit your icon */
+            padding-right: 2.5rem;
         }
 
         #accordionButton:not(.collapsed) {
@@ -130,20 +130,32 @@
     <div class="container-fluid page-header py-5">
         <h1 class="text-center text-blue display-6">My Skills</h1>
     </div>
-    <div class="accordion" id="accordion">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button id="accordionButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordion">
-                <div class="accordion-body">
-                    <p>1st Hello world!</p>
-                </div>
+    {% if "placeholder" in data["Skills"] %}
+        <div id="noBlogPostsYet" class="col-md-12">
+            <div class="counter bg-white rounded p-5">
+                <h4>No skills to display yet...</h4>
+                <p>There are no skills saved at the moment. Please check back later.</p>
             </div>
         </div>
-    </div>
+    {% endif %}
+    {% if "placeholder" not in data["Skills"] %}
+        <div class="accordion" id="accordion">
+            {% for timestamp, skill in data["Skills"].items() %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button id="accordionButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                            {{ skill.Name }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ loop.index }}" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p>{{ skill.Description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <img src="static/Images/ai.png" id="chatIcon" type="button" data-bs-toggle="modal" data-bs-target="#gptModal">
     <div class="modal fade" id="gptModal" tabindex="-1" aria-labelledby="gptModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

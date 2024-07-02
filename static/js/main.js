@@ -214,6 +214,11 @@ function setAwardIDtoEdit(awardID){
     AwardIDtoEdit = awardID
 }
 
+var SkillIDtoEdit = null
+function setSkillIDtoEdit(skillID){
+    SkillIDtoEdit = skillID
+}
+
 function submitEdits(index){
     const editedTitle = document.getElementById('editTitle' + index).value;
     const editedDescription = document.getElementById('editDescription' + index).value;
@@ -729,4 +734,121 @@ function submitPrompt() {
         alert("Please enter a valid prompt.");
         return;
     }
+}
+
+function submitSkillEdits(index) {
+    const editedSkillName = document.getElementById('editSkillName' + index).value;
+    const editedSkillDescription = document.getElementById('editSkillDescription' + index).value;
+
+    if (editedSkillName == "") {
+        alert("Skill name cannot be empty!");
+        return;
+    }
+    if (editedSkillDescription == "") {
+        alert("Skill description cannot be empty!");
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `editSkill`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "editedSkillName": editedSkillName,
+            "editedSkillDescription": editedSkillDescription,
+            "editSkillID": SkillIDtoEdit
+        }
+    })
+    .then(function (response) {
+        if (response.data.startsWith("ERROR:")) {
+            console.log(response.data)
+            alert("An error occured while editing skill. Please try again.")
+            return;
+        }
+        else if (response.data.startsWith("UERROR:")) {
+            console.log(response.data)
+            alert(response.data.substring("UERROR: ".length))
+            return;
+        }
+        console.log(response.data)
+        window.location.reload();
+    })
+    .catch(function (error) {
+        console.error('Error editing skill:', error);
+    });
+}
+
+function deleteSkill(skillID) {
+    axios({
+        method: 'post',
+        url: `deleteSkill`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "skillID": skillID
+        }
+    })
+    .then(function (response) {
+        if (response.data.startsWith("ERROR:")) {
+            console.log(response.data)
+            alert("An error occured while deleting skill. Please try again.")
+            return;
+        }
+        else if (response.data.startsWith("UERROR:")) {
+            console.log(response.data)
+            alert(response.data.substring("UERROR: ".length))
+            return;
+        }
+        console.log(response.data)
+        window.location.reload();
+    })
+    .catch(function (error) {
+        console.error('Error deleting skill:', error);
+    });
+}
+
+function addSkill() {
+    const skillName = document.getElementById("skillName").value
+    const skillDescription = document.getElementById("skillDescription").value
+
+    if (skillName == "") {
+        alert("Skill name cannot be empty!");
+        return;
+    }
+    if (skillDescription == "") {
+        alert("Skill description cannot be empty!");
+        return;
+    }
+
+    axios({
+        method: 'post',
+        url: `addSkill`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "skillName": skillName,
+            "skillDescription": skillDescription
+        }
+    })
+    .then(function (response) {
+        if (response.data.startsWith("ERROR:")) {
+            console.log(response.data)
+            alert("An error occured while adding skill. Please try again.")
+            return;
+        }
+        else if (response.data.startsWith("UERROR:")) {
+            console.log(response.data)
+            alert(response.data.substring("UERROR: ".length))
+            return;
+        }
+        console.log(response.data)
+        window.location.reload();
+    })
+    .catch(function (error) {
+        console.error('Error adding skill:', error);
+    });
 }
